@@ -8,296 +8,197 @@
 
 \typeout{NT FILE chapter3.tex}%
 
-\makeatletter
-\newcommand{\ntifpkgloaded}{%
-  \@ifpackageloaded%
-}
-\makeatother
+\chapter{Architecture}
+\label{cha:architecture}
 
+In this chapter there will be a presentation of the architecture of the proposed solution as well as some insights into its 
+implementation.
 
-\chapter{A Short \LaTeX\ Tutorial with Examples}
-\label{cha:a_short_latex_tutorial_with_examples}
+\section{System Overview}
+\label{sec:systemoverview}
+\paragraph{}The proposed solution is designed to address the complexities of navigating a 
+tractor-trailer system in narrow environments, such as agricultural fields. This system integrates 
+advanced path planning and control strategies to ensure safe practices, with collision avoidance, and 
+effective navigation, tending to the specific needs of this type of system.
 
-This Chapter aims at exemplifying how to do common stuff with \LaTeX. We also show some stuff which is not that common! ;)
+The system is divided into two main components: a self-propelled tractor and a non-propelled trailer. 
+The tractor is an Agilex Scout which is a four-wheeled differential driven robot that serves as the 
+navigation unit. The trailer, designed for modularity can have its own independent functionalities 
+allowing for a simpler maintenance and adaptability to different tasks. This modullarity allows 
+for the independant development of the tractor's navigation and control systems without the need knowledge of the trailer's 
+payload or functionalities, with perhaps the exception of the trailer hindering the sensor's view 
+or the trailer's weight exceeding the tractor's capabilities.
 
-Please, use these examples as a starting point, but you should always consider using the \emph{Big Oracle} (aka, \href{http://www.google.com}{Google}, your best friend) to search for additional information or al-ternative ways for achieving similar results.
+The solution proposed in this work is divided into four main modules:
+\begin{itemize}
+    \item \textbf{Environment}: This module is responsible for the representation of the real world, or actually be the real world. This is where the robot will operate.
+    \item \textbf{Sensor perception}: This module is responsible for gathering data from the environment and converting it into usable information like localization and estimation.
+    \item \textbf{Path planning}: This module is responsible for generating a feasible path from the current position to the desired goal.
+    \item \textbf{Control}: This module is responsible for tracking the generated path and ensuring the tractor-trailer system follows it safely without collisions.
+\end{itemize}
 
-\section{Document Structure} % (fold)
-\label{sec:document_structure}
+The overall functioning of the system is as follows: the tractor is at a point in the environment, simulation or real world, 
+the user then requests a movement to a specific position, the path planning module will then generate a path from the current 
+position, estimated with sensor gathered data, to the desired goal. The path is then forwarded to the 
+controller which will then track it by computing the necessary angular and linear velocities while ensuring the 
+physical constraints of the tractor-trailer system a re respected.
+ 
 
-% section document_structure (end)
+% insert figure with an uml diagram of the syste architecture
 
+\section{Hardware}
+\label{sec:hardware}
 
-\section{Dealing with Bibliography} % (fold)
-\label{sec:dealing_with_bibliography}
-
-Citing something online~\cite{wiki:shuntingyard,flex,bison}.
-
-% section dealing_with_bibliography (end)
-
-
-\section{Inserting Tables} % (fold)
-\label{sec:inserting_tables}
-
-% section inserting_tables (end)
-
-
-\section{Importing Images} % (fold)
-\label{sec:importing_images}
-
-% section importing_images (end)
-
-
-\section{Floats, Figures and Captions} % (fold)
-\label{sec:floats_figures_and_captions}
-
-% \subsection{Inserting Figures Wrapped with text} % (fold)
-% \label{ssec:inserting_images_wrapped_with_text}
-%
-% You should only use this feature is \emph{really} necessary. This means, you have a very small image, that will look lonely just with text above and below.
-%
-% In this case, you must use the \verb!wrapfigure! package.  To use \verb!wrapfig!, you must first add this to the preamble:
-%
-% \begin{wrapfigure}{l}{2.5cm}
-%   \centering
-%     \includegraphics[width=2cm]{snowman-vectorial}
-%   \caption{A snow-man}
-% \end{wrapfigure}
-%
-% \noindent\verb!\usepackage{wrapfig}!\\
-% This then gives you access to:\\
-% \verb!\begin{wrapfigure}[lineheight]{alignment}{width}!\\
-% Alignment can normally be either ``l'' for left, or ``r'' for right. Lowercase ``l'' or ``r'' forces the figure to start precisely where specified (and may cause it to run over page breaks), while capital ``L'' or ``R'' allows the figure to float. If you defined your document as twosided, the alignment can also be ``i'' for inside or ``o'' for outside, as well as ``I'' or ``O''. The width is obviously the width of the figure. The example above was introduced with:
-% \lstset{language=TeX, morekeywords={\begin,\includegraphics,\caption}, caption=Wrapfig Example, label=lst:latex_example}
-% \begin{lstlisting}
-%   \begin{wrapfigure}{l}{2.5cm}
-%     \centering
-%       \includegraphics[width=2cm]{snowman-vectorial}
-%     \caption{A snow-man}
-%   \end{wrapfigure}
-% \end{lstlisting}
-
-% subsection inserting_images_wrapped_with_text (end)
-
-% section floats_figures_and_captions (end)
-
-\lipsum[1-3]
-
-\begin{figure}[htbp]
-  \centering
-  \subbottom[One sub-figure\label{fig:leftsubfig}]{%
-    \includegraphics[width=0.5\linewidth]{knitting-vectorial}}%
-  \subbottom[Another sub-figure\label{fig:rightsubfig}]{%
-    \includegraphics[width=0.5\linewidth]{knitting-vectorial}}%
-  \caption{A figure with two sub-figures!}
-  \label{fig:fig2subfig}
+\paragraph{}The tractor used is an Agilex Scout which is a four wheeled differential driven robot, 
+equipped with a NVIDIA Jetson Agx Xavier as the main computer, a LIDAR, an \gls{IMU} and wheel decoders. The Lidar is 
+used to get a point cloud of the robot's surroundings, this point cloud is then fed 
+into the localization algorithm to convert it into a laserscan and be used to help get 
+the robot's position relatiive to the world. Thsi can only be achieved if there is 
+a previously built map of the environment, which is done using the \gls{SLAM} algorithm. Along with 
+the Lidar, the \gls{IMU} and wheel decoders are used to get the robot's accelerations in the three axes and the 
+wheel's rotations respectively. All these sensors are fused together using an Extended Kalman Filter to get the robot's 
+odometry.
+ 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\textwidth]{tractordim.png}
+    \caption{Agilex Scout dimensions.}
 \end{figure}
 
-\textbf{And this is a small text that references the Figure~\ref{fig:fig2subfig} and its Subfigures~\ref{fig:leftsubfig} and~\ref{fig:rightsubfig}.}
-
-\lipsum[1-3]
-
-
-\section{Text Formatting} % (fold)
-\label{sec:text_formatting}
-
-% section text_formatting (end)
-
-
-\section{Generating PDFs from \LaTeX} % (fold)
-\label{sec:generating_pdfs_from_latex}
-
-\subsection{Generating PDFs with pdflatex} % (fold)
-\label{ssec:generating_pdfs_with_pdflatex}
-
-You may create PDF files either by using \verb!latex! to generate a DVI file, and then use one of the many DVI-2-PDF converters, such as \verb!dvipdfm!.
-
-Alternatively, you may use \verb!pdflatex!, which will immediately generate a PDF with no intermediate DVI or PS files. In some systems, such as Apple, PDF is already the default format for \LaTeX. I strongly recommend you to use this approach, unless you have a very good argument to go for \verb!latex! + \verb!dvipdfm!.
-
-A typical pass for a document with figures, cross-references and a bibliography would be:
-\begin{verbatim}
-$ pdflatex template
-$ bibtex template
-$ pdflatex template
-$ pdflatex template
-\end{verbatim}
-You will notice that there is a new PDF file in the working directory called \verb!template.pdf!. Simple :)
-
-Please note that, to be sure all table of contents, cross-references and bibliographic citations are up-to-date, you must run \verb!latex! once, then \verb!bibtex!, and then \verb!latex! twice.
-% section generating_pdfs_with_pdflatex (end)
-
-\subsection{Dealing with Images} % (fold)
-\label{sub:dealing_with_images}
-
-You may process the same source files with both \verb!latex! or \verb!pdflatex!. But, if your text include images, you must be careful. \verb!latex! and \verb!pdflatex! accept images in different (exclusive) formats.  For \verb!latex! you may use EPS ou PS figures. For \verb!pdflatex! you may use JPG, PNG or PDF figures.  I strongly recommend you to use PDF figures in vectorial format (do not use bitmap images unless you have no other choice).
-% subsection dealing_with_images (end)
-
-
-\subsection{Dealing with Citations} % (fold)
-
-Para fazer citações, deverá usar-se a chave da referência no ficheiro BibTeX. Se for uma única referência~\cite{Artho04}, usar um ``\verb!~!'' para ligar o \verb!\cite{...}! à palavra que o precede (\ldots\verb!referência~\cite{Artho04}!).  Caso queira fazer múltiplas citações~\cite{Shavit95,Silberschatz06,Moss85}, deverá agrupá-las dentro de um úinico \verb!\cite{...}!.
-
-Note que o ficheiro de bibliografia pode ter tantas entradas quantas quiser. Apenas aquelas cuja chave seja referenciada no texto é que serão incluidas na listagem de bibliografia.
-
-
-\subsection{Footnotes} % (fold)
-
-Footnotes\footnote{This is a simple footnote.} will be numbered and shown in the bottom of the page.
-
-
-\subsection{Tables} % (fold)
-
-The Table~\ref{tab:hla:results} illustrates some important concepts associated with table construction:
-\begin{asparaenum}[i)]
-\item Do not use vertical lines;
-\item The caption should be above the table;
-\item Use the macros \verb!\toprule!, \verb!\midrule! and \verb!\bottomrule! to make the top, inner and bottom horizontal lines, respectively.
-\end{asparaenum}
-
-\bgroup
-\rowcolors{1}{}{GhostWhite}
-\begin{xltabular}{\textwidth}{Xccccc}
-  \caption{Test results summary.}
-  \label{tab:hla:results}\\
-  \toprule
-  \rowcolor{Gainsboro}%
-  Test   & Anomalies  & Warnings  & Correct   & Categories            & Missed \\
-  \midrule
-Connection~\cite{Beckman08}     & 2       & 2          & 1          & \emph{C}              & 1 \\
-Coordinates'03~\cite{Artho03}   & 1        & 4          & 1          & \emph{2B, 1C}          & 0 \\
-Local Variable~\cite{Artho03}    & 1        & 2          & 1          & \emph{A}              & 0 \\
-NASA~\cite{Artho03}              & 1        & 1          & 1          & ---                    & 0 \\
-Coordinates'04~\cite{Artho04}    & 1        & 4          & 1          & \emph{3C}              & 0 \\
-Buffer~\cite{Artho04}            & 0        & 7          & 0          & \emph{2A, 1B, 2C, 2D}  & 0 \\
-Double-Check~\cite{Artho04}      & 0        & 2          & 0          & \emph{1A, 1B}          & 0 \\
-StringBuffer~\cite{Flanagan04}  & 1        & 0          & 0          & ---                    & 1 \\
-Account~\cite{Praun03}          & 1        & 1          & 1          & ---                   & 0 \\
-Jigsaw~\cite{Praun03}            & 1        & 2          & 1          & \emph{C}              & 0 \\
-Over-reporting~\cite{Praun03}    & 0        & 2          & 0          & \emph{1A, 1C}          & 0 \\
-Under-reporting~\cite{Praun03}  & 1        & 1          & 1          & ---                    & 0 \\
-Allocate Vector~\cite{IBM-Rep}  & 1        & 2          & 1          & \emph{C}              & 0 \\
-Knight Moves~\cite{Beckman08}   & 1        & 3          & 1          & \emph{2B}              & 0 \\
-  \midrule
-  \rowcolor{Gainsboro}%
-Total                            & 12      & 33        & 10        & 5A, 6B, 10C, 2D       & 2 \\
-  \bottomrule
-  \end{xltabular}
-\egroup
-
-\subsection{Figures} % (fold)
-
-The images inserted in the document must be of good quality, preferably in vector format (vector PDF) and not in \emph{bitmap} (PNG, JPG, etc.). \emph{bitmap} images (Figure~\ref{fig:Figures_Tree_silhouettes-bitmap}) do not scale well and have negative effects on the quality of your document. On the other hand, \emph{vector} images {Figure~\ref{fig:Figures_Tree_silhouettes-vectorial}} scale as much as necessary without degrading the quality of the image.
-
-You should only use \emph{screenshots} for your plots, charts, etc, if you absolutely have no other alternative. Instead of generating a \emph{screenshot}, try using a virtual PDF printer and printing to a PDF file. As a general rule, you will get a vector PDF. Even if your PDF contains images, they will always be of higher or equal quality than what you would get with a \emph{screenshot}.
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[height=1in]{snowman-bitmap}
-  \includegraphics[height=3in]{snowman-bitmap}
-  \includegraphics[height=6in]{snowman-bitmap}
-  \caption{Bitmap image (JPG/PNG)}
-  \label{fig:Figures_Tree_silhouettes-bitmap}
+The previous figure only sows the robot and its dimensions, however, the 
+tractor is equipped with an additional rack, at the top, where the computer, Lidar and all other required electronics 
+are mounted.
+% \begin{figure}[h]
+% \centering
+% \includegraphics[width=0.9\textwidth]{tractorack.png}
+% \caption{Rack with the main computer and additional eletronics.}
+% \end{figure}
+Additionally, the tractor is pulling a trailer, which is equipped with 
+a spray system, however for the sake if simplicity, to thest the navigation 
+and control algorithms, the tests were be done with the following trailer:
+\clearpage
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\textwidth]{trailergazebo.jpg}
+    \caption{Tractor-trailer system simulated in Gazebo Classic.}
 \end{figure}
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[height=1in]{snowman-vectorial}
-  \includegraphics[height=3in]{snowman-vectorial}
-  \includegraphics[height=6in]{snowman-vectorial}
-  \caption{Vectorial image (PDF)}
-  \label{fig:Figures_Tree_silhouettes-vectorial}
+The trailer shown in the figure above, is a representation of a generic trailer, not having any specific 
+functions other than follwoing the systems dynamics, which is the main focus of this work.
+% \begin{figure}[h]
+% \centering
+% \includegraphics[width=0.9\textwidth]{trailerdim.jpg}
+% \caption{Tractor-trailer system simulated in Gazebo Classic.}
+% \end{figure}
+
+\section{Planner}
+\label{sec:planner1}
+The planner is a Voronoi Hybrid A* mixeture which takes the 
+ability to generate feasible paths from the Hybrid A* and the 
+added velocity of having a pre-computed Voronoi graph to expand 
+from.
+
+The following flowchart shows the logic of the planner, starting with 
+the request for movement, assigning a goal target. Then, the planner will 
+preform a A* search on the Voronoi Graph, starting from the current robot 
+positon, to the goal pose. The A* search will return a path which consists 
+of a series of subgoals which will later on be used to speed up the 
+path creation process. Having the subgoals, the next step is to try and 
+find a feasible path from the current position to the subgoal nearest to 
+the goal pose, in this case, since it is the first iteration, the actual goal. 
+If the path is feasible, then the planner will simply return said path, otherwise
+ the planner will try to do the same but with the next subgoal, until it either finds 
+a feasible path or exhausts all the subgoals. If it finds a path, it will 
+repeat the previous process, but instead of using the current position as the 
+starting configuration, it will use the subgoal which a path was able to be 
+computed to. If it exhausts all the subgoals, then it will try and compute a new node, 
+a Hybrid A* node, which consists of a segment, starting from the current algorithmic position 
+(can be the start point or a subgoal depending if a path was found previously), to any point 
+that is reachable by the tractor at a distance $d$ defined by the user, and then assign them as the 
+current algorithmic position to run the Dubins loop again.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.80\textwidth]{Flowchart.png}
+    \caption{Planner logic flowchart}
+\end{figure}
+\clearpage
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Hybridastararrows.jpg}
+    \caption{New Hybrid A* nodes, in black.}
 \end{figure}
 
-To combine several figures into a single one… You can then reference the set as Figure~\ref{fig:complete-figure} or the sub-figures separately as~\ref{fig:woolball} and~\ref{fig:cloud}.
+\section{Controller}
+\label{sec:controller}
+A path is nothing if it cannot be followed so, a controller capable of 
+attending to this system's needs is required. This controller will 
+receive as input the generated path by the planner and will try to track it. 
+This is achieved in two steps, first, having the current positions in mind, 
+it will choose the next subgoal in the path. Since the controller is 
+a \gls{PP} controller, the subgoal is chosen depending on the lookahead distance, 
+as explained in \ref{subsec:PP}. The next step is to compute the angular velocity needed 
+for the robot to reach said subgoal. For this, two controllers were used:
+\begin{itemize}
+    \item \textbf{Forwards Controller}: Used when the tractor is moving forwards.
+    \item \textbf{Backwards Controller}: Used when the tractor is moving backwards.
+\end{itemize}
+The choice of controller depends on the orientation of the tractor and 
+direction to the next subgoal. The need for two controllers arises from 
+the fact that when moving backwards, the movement needs to be optimised 
+for the trailer's position and orientation, while when moving forwards, 
+the movement needs only to be optimised for the tractor's movement as the 
+trailer positions are move predictable when moving forwards.
 
-\begin{figure}[htbp]
-  \centering
-    \subbottom[Novelo de lã]{%
-    \label{fig:woolball}
-    \includegraphics[height=1in]{knitting-vectorial}
-    }
-\qquad\qquad
-    \subbottom[Tempestade com neve]{%
-    \label{fig:cloud}
-    \includegraphics[height=1in]{snowstorm-vectorial}
-    }
-  \caption{Exemplo de utilização de \emph{subbottom}}
-  \label{fig:complete-figure}
-\end{figure}
-
-\section{Equations}
-
-LaTeX is a powerful tool for writing in a mathematical style. It allows you to insert formulas into the text, such as this: $ax^2 + bx + c = 0$. It also allows formulas to be highlighted on a separate line and centered on the page.
-\[ x = \frac{-b \pm \sqrt{b^2-4ac}}{2a} \]
-or numbererd
+The forwards controller is defined by the following equations:
 \begin{equation}
-e = mc^2
-\label{eq:1}
+    \omega = \tan^{-1}\left(\frac{2*WB*sin(\epsilon_{\theta_0})}{l_f}\right)
 \end{equation}
-which can latter be referenced as equation~\ref{eq:1}
+where $WB$ is the wheelbase of the tractor, $l_f$ is the lookahead distance and 
+$\epsilon_{\theta_0}$ is the error in the angle between the tractor and the next goal.
+\begin{equation}
+    \epsilon_{\theta_0} = \tan^{-1}\left(\frac{t_y - y_r}{t_x - x_r}\right) - \theta_0
+\end{equation}
+The $t_x$ and $t_y$ are target point coordinates and $x_r$ and $y_r$ are the current tractor center coordinates. 
+As explained previously, this controller only cares about the tractor's 
+configuration, which makes having a feasible path all the more important.
 
-\newif\ifntlistingsloaded
-\ntifpkgloaded{listings}{\ntlistingsloadedtrue}{\ntlistingsloadedfalse}
-\newif\ifntmintedloaded
-\ntifpkgloaded{minted}{\ntmintedloadedtrue}{\ntmintedloadedfalse}
+The backwards controller, on the other hand, is defined by the following equations:
+\begin{equation}
+    \omega = V \left(-k (\theta_1 - \alpha^*) - \frac{sin\theta_1}{RTR}\right)
+\end{equation}
+where $RTR$ is the distance between the hitch joint and the trailer's real axle, 
+$k$ is a constant, $\theta_1$ is the angle between the tractor and the trailer, 
+$V$ is the linear velocity of the tractor and 
+\begin{equation}
+    \alpha^* = tan^{-1}\left(\frac{2*RTR*sin(\epsilon_{\theta_1})}{l_f}\right)
+\end{equation}
+with
+\begin{equation}
+    \epsilon_{\theta_1} = \tan^{-1}\left(\frac{t_y - y_t}{t_x - x_t}\right) - \theta_t
+\end{equation}
+where $t_x$ and $t_y$ are the target point coordinates and $x_t$ and $y_t$ are the current trailer real axle coordinates and 
+$\theta_t$ is the orientation of the trailer. It is observed that 
+these equations are similar to the forwards controller, however, they differ 
+in the fact that the goal pose is defined by the trailer's position. Even though 
+this controller is taking the trailer's constraints into account, due to 
+the inate nature of the tractor-trailer system being non-holonomic, the 
+path planner is still the one responsible for maintaining the feasibility 
+of the movement.
 
-\ifntlistingsloaded
-\section{Test for listings} % (fold)
-\label{sec:test_for_listings}
 
-Testing the package “listings“…
+\section{Collision Avoidance}
+\label{sec:collision}
+The collision avoidance aspect of the controller is of the utmost importance 
+in real world scenarios when dealing with possible workers in the field. To achieve 
+this safety requirement the controller is equipped with a collision detector 
+which will check for obstacles in the way of the tractor-trailer system and stop until the 
+obstacle is no longer in the way or another path update has been sent.
 
-\begin{lstlisting}[caption=cap,label=lst:lab,float=htbp]
-if(a==b)
-  puts("YESS!")
-\end{lstlisting}
-\fi
+The collision detection is done by checking if theres an obstacle between the 
+tractor and its next goal in the path. If the robot is reversing, instead 
+of checking the tractor's next goal, it will check the trailer's.
 
-\ifntmintedloaded
-\section{Test for minted} % (fold)
-\label{sec:test_for_minted}
-
-Testing the package “minted“…
-
-\begin{listing}[H]
-  \begin{minted}{C}
-    if(a==b)
-      puts("YESS!")
-  \end{minted}
-  \caption{Example of a listing.}
-  \label{lst:lab}
-\end{listing}
-\fi
-
-\section{Test for algorithms}
-\label{sec:test_for_algorithms}
-
-Uncomment the algorithms source below and add the following to file “\verb!5_packages.tex!”
-\begin{verbatim}
-  \usepackage{algorithm2e}
-  \RestyleAlgo{ruled}
-\end{verbatim}
-and uncomment
-\begin{verbatim}
-\ntaddlistof{listofalgorithms}
-\end{verbatim}
-in file “\verb!8_list_og.tex!”.
-
-% \begin{algorithm}
-% $i\gets 10$\;
-% \eIf{$i\geq 5$}
-% {
-%     $i\gets i-1$\;
-% }{
-%     \If{$i\leq 3$}
-%     {
-%         $i\gets i+2$\;
-%     }
-% }
-% \caption{This is an algorithm.}
-% \end{algorithm}
-
-% section test_for_listings (end)
-
-% \printbibliography[heading=subbibliography, segment=\therefsegment, title={\bibname\ for chapter~\thechapter}]
-
+\section{System Overview}
+\label{sec:systemoverview}
+The system is a modular one, where every module is responsible for a 
+specific task and toguether they form a complete system. 

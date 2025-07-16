@@ -12,7 +12,7 @@
 %%============================================================
 
 %-------------------------------------------------------------
-% \ntsetup{doctype=msc}       % The type of document
+\ntsetup{doctype=msc}       % The type of document
 %                               %     [     phd —> PhD thesis
 %                               %       phdplan —> PhD thesis plan
 %                               %       phdprop —> PhD thesis proposal
@@ -26,7 +26,7 @@
 
 
 %-------------------------------------------------------------
-% \ntsetup{school=uminho/eeng}    % The school id
+\ntsetup{school=nova/fct}    % The school id
 %                               %     [ nova/fct, nova/fct/di-adc, nova/fct/cbbi,
 %                               %       nova/fct/blue, nova/fct/green, nova/fct/brown, nova/fct/red,
 %                               %       nova/itqb/gray, nova/itqb/green, nova/fcsh, nova/ensp, 
@@ -44,7 +44,7 @@
 
 
 %-------------------------------------------------------------
-% \ntsetup{docstatus=final}     % The status of the document
+\ntsetup{docstatus=final}     % The status of the document
 %                               %     [     working —> working version of the document
 %                                                      skips some “frontmatter” stuff,
 %                                       provisional —> submission version (no committee),
@@ -54,7 +54,7 @@
 %                               %     ]
 %                               % DEFAULT: docstatus=working
 
-% \ntsetup{lang=pt}             % The main language for the document text
+\ntsetup{lang=en}             % The main language for the document text
 %                               % following ISO 3166-1 (alfa-2)
 %                               %     [ en, pt, fr, it, de, es —> valid languages
 %                               %     ]
@@ -63,7 +63,7 @@
 
 
 %-------------------------------------------------------------
-% \ntsetup{media=paper}         % The target media for the PDF
+\ntsetup{media=screen}         % The target media for the PDF
 %                               %     [ screen —> left and right margins are equal, colored links
 %                               %        paper —> left and right margins are, black links
 %                               %     ]
@@ -78,7 +78,7 @@
 
 
 %-------------------------------------------------------------
-% \ntsetup{color/links=SteelBlue}% The color for the hyperlinks (URLs, cross references, citations)
+\ntsetup{color/links=SteelBlue}% The color for the hyperlinks (URLs, cross references, citations)
 %                               %     Valid color names  —> look at "svgname" in the "xcolor"
 %                               %                           package documentation
 %                               % DEFAULT: a customized dark blue color
@@ -86,7 +86,7 @@
 
 
 %-------------------------------------------------------------
-% \ntsetup{color/gls=SteelBlue} % The color for the glossary managed hyperlinks (glossary, symbols, etc)
+\ntsetup{color/gls=SteelBlue} % The color for the glossary managed hyperlinks (glossary, symbols, etc)
 %                               %     Valid color names  —> look at "svgname" in the "xcolor"
 %                               %                           package documentation
 %                               % DEFAULT: black
@@ -100,8 +100,8 @@
 %%============================================================
 
 %-------------------------------------------------------------
-% \ntsetup{abstractorder={en,pt,fr}}   % The order for abstracts for the main language
-% \ntsetup{abstractorder={pt={en,pt,fr}}}   % The order for abstracts for a specific language
+\ntsetup{abstractorder={en,pt}}   % The order for abstracts for the main language
+\ntsetup{abstractorder={pt={en,pt,}}}   % The order for abstracts for a specific language
 %                               %     [ de, en, es, fr, gr, it, pt, —> valid languages
 %                               %     ]
 %                               % DEFAULT for 'en':     abstractorder={en={en,pt}}
@@ -120,20 +120,20 @@
 
 
 %-------------------------------------------------------------
-% \ntsetup{gnumberlist=false}   % Shall the glossary entries list the page numbers where
+\ntsetup{gnumberlist=true}   % Shall the glossary entries list the page numbers where
 %                               %     those entries are used?  (as a reverse index!)
 %                               % DEFAULT: gnumberlist=true
 
 
 
 %-------------------------------------------------------------
-% \ntsetup{numberallpages=true} % Shall all the pages (except cover) be numbered?
+\ntsetup{numberallpages=true} % Shall all the pages (except cover) be numbered?
 %                               % DEFAULT: numberallpages=false
 
 
 
 %-------------------------------------------------------------
-% \ntsetup{tocintoc=true}       % Shall table of contects be listed in itself?
+\ntsetup{tocintoc=true}       % Shall table of contects be listed in itself?
 %                               % DEFAULT: tocintoc=false
 
 
@@ -148,7 +148,7 @@
 
 
 %-------------------------------------------------------------
-% \ntsetup{print/committee=true}% Shall the evaluation committee be printed?
+\ntsetup{print/committee=true}% Shall the evaluation committee be printed?
 %                               %     the evaluation committee should only be
 %                               %     printed in final versions.
 %                               % DEFAULT: print/committee=false
@@ -156,7 +156,7 @@
 
 
 %-------------------------------------------------------------
-% \ntsetup{print/frontmatter=false}% Print the front matter
+\ntsetup{print/frontmatter=true}% Print the front matter
 %                               %     set to false to generate a PDF with only the
 %                               %     cover and the book chapters
 %                               % DEFAULT: print/frontmatter=true
