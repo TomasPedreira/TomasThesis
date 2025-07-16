@@ -36,12 +36,16 @@ The solution proposed in this work is divided into four main modules:
     \item \textbf{Path planning}: This module is responsible for generating a feasible path from the current position to the desired goal.
     \item \textbf{Control}: This module is responsible for tracking the generated path and ensuring the tractor-trailer system follows it safely without collisions.
 \end{itemize}
+1\
+From the modules mentioned above, the ones that are implemented in this work are mainly 
+the path planning and control modules, however, in order to test and develop the system, 
+the environment and sensors were simulated.
 
 The overall functioning of the system is as follows: the tractor is at a point in the environment, simulation or real world, 
 the user then requests a movement to a specific position, the path planning module will then generate a path from the current 
 position, estimated with sensor gathered data, to the desired goal. The path is then forwarded to the 
 controller which will then track it by computing the necessary angular and linear velocities while ensuring the 
-physical constraints of the tractor-trailer system a re respected.
+physical constraints of the tractor-trailer system are respected.
  
 
 % insert figure with an uml diagram of the syste architecture
@@ -50,33 +54,44 @@ physical constraints of the tractor-trailer system a re respected.
 \label{sec:hardware}
 
 \paragraph{}The tractor used is an Agilex Scout which is a four wheeled differential driven robot, 
-equipped with a NVIDIA Jetson Agx Xavier as the main computer, a LIDAR, an \gls{IMU} and wheel decoders. The Lidar is 
-used to get a point cloud of the robot's surroundings, this point cloud is then fed 
-into the localization algorithm to convert it into a laserscan and be used to help get 
-the robot's position relatiive to the world. Thsi can only be achieved if there is 
-a previously built map of the environment, which is done using the \gls{SLAM} algorithm. Along with 
-the Lidar, the \gls{IMU} and wheel decoders are used to get the robot's accelerations in the three axes and the 
-wheel's rotations respectively. All these sensors are fused together using an Extended Kalman Filter to get the robot's 
-odometry.
+equipped with a NVIDIA Jetson Agx Xavier as the main computer, a LIDAR, an \gls{IMU} and wheel decoders. 
+the NVIDIA Jetson Agx Xavier is a powerful computer capable of running complex algorithms in real time, 
+and is used to run the whole system, from path planning to control and sensor 
+perception. The Lidar, \gls{IMU} and decoders are used to gather data for localization and mapping. This 
+robot can be teleoperated using a controller, or can be programmed 
+to do whatever autonomous task is requiered since all its instruments 
+are accessible in the Jetson Agx Xavier. The tractor is shown in the figure below:
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\textwidth]{tractor_gazebo.png}
+    \caption{Simulated tractor in Gazebo.}
+\end{figure}
+
+There's no representation of the jetson in the simulation since the program is running on 
+the same machine as the simuation.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\textwidth]{tractor_gazebo.png}
+    \caption{Real tractor.}
+    \label{fig:tractor}
+\end{figure}
+
  
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.9\textwidth]{tractordim.png}
     \caption{Agilex Scout dimensions.}
+    \label{fig:tractordim}
 \end{figure}
 
-The previous figure only sows the robot and its dimensions, however, the 
-tractor is equipped with an additional rack, at the top, where the computer, Lidar and all other required electronics 
+The figures \ref{fig:tractordim} and \ref{fig:tractor} show the robot, its dimensions, and also the 
+the additional rack, at the top, where the computer, Lidar and all other required electronics 
 are mounted.
-% \begin{figure}[h]
-% \centering
-% \includegraphics[width=0.9\textwidth]{tractorack.png}
-% \caption{Rack with the main computer and additional eletronics.}
-% \end{figure}
+
 Additionally, the tractor is pulling a trailer, which is equipped with 
-a spray system, however for the sake if simplicity, to thest the navigation 
+a spray system, however for the sake of simplicity, to test the navigation 
 and control algorithms, the tests were be done with the following trailer:
-\clearpage
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.9\textwidth]{trailergazebo.jpg}
@@ -84,12 +99,16 @@ and control algorithms, the tests were be done with the following trailer:
 \end{figure}
 
 The trailer shown in the figure above, is a representation of a generic trailer, not having any specific 
-functions other than follwoing the systems dynamics, which is the main focus of this work.
+functions other than following the systems dynamics, which is the main focus of this work.
 % \begin{figure}[h]
 % \centering
 % \includegraphics[width=0.9\textwidth]{trailerdim.jpg}
 % \caption{Tractor-trailer system simulated in Gazebo Classic.}
 % \end{figure}
+
+One particular aspect of this robot is that there's no sensor for 
+trailer position and, therefore, it is estimated in real time using the 
+system's dynamics shown in \ref{subsec:SD}.
 
 \section{Planner}
 \label{sec:planner1}
@@ -127,6 +146,7 @@ current algorithmic position to run the Dubins loop again.
     \includegraphics[width=0.6\textwidth]{Hybridastararrows.jpg}
     \caption{New Hybrid A* nodes, in black.}
 \end{figure}
+
 
 \section{Controller}
 \label{sec:controller}
@@ -197,8 +217,3 @@ obstacle is no longer in the way or another path update has been sent.
 The collision detection is done by checking if theres an obstacle between the 
 tractor and its next goal in the path. If the robot is reversing, instead 
 of checking the tractor's next goal, it will check the trailer's.
-
-\section{System Overview}
-\label{sec:systemoverview}
-The system is a modular one, where every module is responsible for a 
-specific task and toguether they form a complete system. 
