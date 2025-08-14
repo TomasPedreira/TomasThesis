@@ -54,14 +54,30 @@ the navigation system.
     \label{fig:nav2_stack}
 \end{figure}
 
-In figure \ref{fig:nav2_stack} we can see the different components of the \gls{NAV2} stack required for 
-robust autonomous behaviour. The main components are thr Controller server, which is responsible for, using a controller 
-plugin, controlling the robot's movement, the Planner server, which is responsible for, using a custom plugin, 
-planning the robot's path, the Behaviour server which, given a custom behaviour tree, is responsible for selecting the 
-next action to be taken by the robot, the BT Navigator server, which coordinates all the other servers and the Lifecycle manager 
-which controls the lifecycle of the different modules mentioned previously. The stack also includes a variety of already 
-defined plugins to be used for localization, path planning and control, however, in this work, a custom planner, controller, 
-behaviour tree and also state publisher are created to suit the specific needs of the robot.
+In figure \ref{fig:nav2_stack} we can see the different components of the \gls{NAV2} stack as well as their 
+relations with one another. Firstly, lets define the inputs to the diagram. The BT is the Behaviour tree 
+which is an xml file that defines the robot's behaviour, the TF a collection of transforms that define each 
+robot link to one another, the map is a 2D map representing the environment, and the sensor data is 
+the data collected by the robot's sensors. Secondly, some essencial elements are also the global and local 
+costmaps, which are 2D maps that instead of having binary values for if there's an obstacle or not, have 
+have costs for each cell that represent the difficulty of traversing that cell, the Global costmap 
+has the map origin as a reference for the robot's position, while the local costmap is centered around 
+the robot's position. Having these concepts defined, we can now explain the different components of 
+the \gls{NAV2} stack. The BT navigator server is the main component of the navigation as it manages 
+and interacts with all the other servers to achieve a robust navigation solution. The Controller server, 
+given the global path and the local costmap, is responsible for generating velocity commands 
+for the robot to follow the path, it does this by using a controller plugin that can be custom made or 
+one of the many already available in the stack. The Planner server is responsible for, given the 
+global costmap and the robot's position, generating a global path to the goal, it does this by also 
+using a plugin. The Behaviour server is given both costmaps and decides what action the robot should take 
+in a given moment. Lastly, the Lifecycle manager, this node is responsible for managing the lifecycle of all 
+the other nodes in the navigation stack, ensuring that they are properly initialized, configured, and shut 
+down as needed. These are the main components as the other servers are not essential for understanding 
+the navigation and overall architecture of the system.
+
+
+
+
 
 \section{Environment}
 \label{subsec:environment}
@@ -89,10 +105,10 @@ have the robot's model and sensors running in the environment, and it will creat
 The robot model used in this work is fortunately made available by its manufacturers 
 so it can be used in the simulation directly, and the sensors are simulated using their 
 Gazebo plugins, which allow the user to specify the sensor's properties, such as range, resolution, and noise.
-
+\clearpage
 \begin{figure}
     \centering
-    \includegraphics[width=0.9\textwidth]{wall_map.png}
+    \includegraphics[width=0.7\textwidth]{wall_map.png}
     \caption{Map created using the SLAM Package in the Gazebo Simulation. White space is non-occupied space, black are obstacles and grey is undiscovered space.}
     \label{fig:slam_map}
 \end{figure}
@@ -113,7 +129,7 @@ given the distance and angles that need to be covered, converts a point cloud in
 allowing for the \gls{SLAM} package to work as intended.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.50\textwidth]{basement.png}
+    \includegraphics[width=0.90\textwidth]{basement.png}
     \caption{Map of the concealed room.}
     \label{fig:basement_map}
 \end{figure}
@@ -235,13 +251,9 @@ a Dubins Path needs to be created.
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.9\textwidth]{subgoals.png}
-    \caption{Subpath, in blue, created by the planner plugin.}
+    \caption{Subpath, in blue, created by the planner.}
     \label{fig:subgoals}
 \end{figure}
-
-The Dubins Path, explained in \ref{sec:dubins_path}, is then created using the start and goal points, as well as the desired 
-turning radius for the robot, this could be set from a configuration file and 
-given to the plugin when created.
 
 A feature of the planner is the addition of the trailer. The planner needs to take into account 
 the position of the trailer to ensure that no collisions occur while the robot is 
@@ -254,4 +266,107 @@ that the trailer would either not be considered, which wouldn't make sense
 as it is the whole purpose of this robot, that the trailer would be considered 
 fixed to a certain position, however this solution would not be feasible as it might make 
 some curves impossible to follow, so a custom publisher was made to publish the trailer's hitch 
-transform based on the trailer's movement. 
+transform based on the trailer's movement. This publisher takes in the robot's 
+dynamics defined in \ref{subsec:APP} and integrates the tractor's movement 
+allowing for approximate estimation of the trailer's hitch position and orientation.
+
+
+Having the trailer estimated and a rough path to follow, the nex step is to create the 
+Dubins path to the desired subgoal. As explained in \ref{sec:planner1}, starting from the farthest subgoal, 
+a Dubins path is created from the tractor's current position to the subgoal. Naturally, since a Dubins 
+path is a collection of two curves and a straight line, the path created may not be feasible as it might 
+go over obstacles or even put the trailer in undesirable positions. To check for this, with every iteration 
+of the planner, the trailer position is estimated in every point of the current plan and a verification 
+against jackknife conditions and obstacle collisions is performed. If any of these conditions 
+are met, the Dubins path is void and a path to the next subgoal is created.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\textwidth]{dubinsonce.png}
+    \caption{Dubins Path created by the planner in the first iteration.}
+    \label{fig:dubins_path1}
+\end{figure}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{dubinsmultiple.png}
+    \caption{Dubins Path created by the planner in three tries. The red circle marks the subgoal used as intermediary.}
+    \label{fig:dubins_path2}
+\end{figure}
+
+In picture \ref{fig:dubins_path1}, it is possible to see how the planner chooses the farthest node and tries 
+to connect it to the starting position, and, since there are no obstacles or movements that would make 
+the trailer jackknife, the Dubins path is valid and used. However, in picture \ref{fig:dubins_path2}, the 
+planner tries to connect the tractor to the last subgoal, but cannot due to the row of crops in between 
+making the planner retry three times before a suitable subgoal is found and, because the chosen subgoal 
+is in clear view and aligned with the goal position, when the planner goes to repeat the algorithm 
+and a direct path is found.
+
+The last step to finish the controller is developing the recovery hybrid astar component. The previous 
+examples showed how iterating through the subgoals can lead to a valid path, however, in certain cases 
+it may not be the case and the loop would reach the start point without a valid path.
+
+For these cases, a specially designed recovery module is implemented. It works by, first, reading the 
+configuration file to look for the maximum angles the arcs should have. Then, it devides the maximum 
+angle by the number of arcs the algorithm should have, forwards and backwards. These arcs are composed 
+of a user defined number of points distanced by a user defined distance, which the last point will be 
+used as a new starting point and iterate through the subgoals again.
+
+The process of creating these arcs uses the same logic as the verification of the Dubins path for 
+jackknifing, but instead of checking only for the trailer's hitch position, it checks for the tractor's 
+position and orientation aswell. It is a loop iterated over the number of points starting form the starting position 
+and goes one by one, calculating the next point as if the trailer was steered through the defined angle. This 
+process created a number of arcs each time and can get computationally expensive if no subgoal can 
+be reached over a prolonged period of time. To mitigate this, a time limit is imposed and the user will have 
+to manually intervene to adjust the robot or simply set a new goal and try again.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.3\textwidth]{Hybridastararrows.jpg}
+    \caption{Hybrid A* arcs.}
+    \label{fig:arrows}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{hybridseg1.png}
+    \caption{Successful recovery path with number of segments as one. Hybrid A* path in red, Dubins path in green, and subgoals in blue.}
+    \label{fig:rseg1}
+\end{figure}
+
+At first, the number of segments was not a variable and the algorithm would always add 
+one point for every iteration of the hybrid A* algorithm. This would not only worsen the computation 
+time but also lead to very small adjustments in paths which could make them unfollowable by the controller, 
+as shown in Figure \ref{fig:rseg1}.
+
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{hybridastarpath1.png}
+    \caption{Successful recovery path with number of segments as fifteen. Hybrid A* path in red, Dubins path in green, and subgoals in blue.}
+    \label{fig:recovery_module}
+\end{figure}
+
+This, of course, led to the need for the number of segments, and their length, to be a variable 
+parameter and the problem was solved. The figure \ref{fig:recovery_module} shows an attempt at 
+making a ninety degree turn backwards. Since the Dubins path can only find paths that make the robot move 
+forwards, the hybrid A* was called and made the necessary segments to allow for the maneuvre 
+to be completed successfully.
+
+The conventional A* has the following cost function for each node:
+$$f(n) = g(n) + h(n)$$
+where $f(n)$ is the total cost of the node, $g(n)$ is the cost to reach the node from the start node, 
+and $h(n)$ is the heuristic cost to reach the goal node from the current node. However, 
+in this case, since the orientation is a very important factor, it must be factored 
+into the cosst of each node, so the cost function is modified to:
+$$f(n) = g(n) + h(n) + ap(n) + dir(n)$$
+where $ap(n)$ is the angle penalty relative to the goal pose, and the $dir(n)$ 
+is the direction change cost. In an initial phase the robot would be constantly making 
+changes in direction going forwards and backwards multiple times, so the direction 
+change cost had to be implemented to avoid unnecessary oscillations and facilitate the 
+the controller's job of following the planned path.
+
+These changes would not be enough in the end to make for efficient short hybrid path recoveries, 
+and the last change made was to make the $h(n)$ cost incremental, making the cost 
+of long segments too heavy to be chosen as the next node, and conditioning the 
+algorithm to prefer shorter paths.

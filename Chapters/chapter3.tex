@@ -11,7 +11,7 @@
 \chapter{Architecture}
 \label{cha:architecture}
 
-In this chapter there will be a presentation of the architecture of the proposed solution as well as some insights into its 
+\paragraph{}In this chapter there will be a presentation of the architecture of the proposed solution as well as some insights into its 
 implementation.
 
 \section{System Overview}
@@ -356,4 +356,29 @@ give signal that a collision is imminent and commands will be to stop and wait.
     \includegraphics[width=0.6\textwidth]{collisiondetection.png}
     \caption{Representation of the collsion detection module. In red the goal pose, in grey the tractor, the black circle is the obstacle and then the doted rectangle the expanded rectangle used to check for collisions.}
     \label{fig:collisiondetection}
+\end{figure}
+
+\section{Final Architecture}
+\label{sec:final_architecture}
+
+\paragraph{}The final architecture acn be seen in figure \ref{fig:system_architecture}, 
+where the modules are represented and how they interact with each other. The environment is either 
+the real world or a simulated world totaly created form scratch, the sensors are the Lidar and Wheel encoders, 
+which are represented by the real word counterparts or gazebo plugins. The Extended Kalman Filter is 
+used to estimate the tractor's transform using the wheel speed from the encoders and is an available 
+package from the \gls{NAV2} framework. The map that is in the Map server has to be created manually using 
+\gls{SLAM}. The \gls{AMCL} node is available inside the \gls{NAV2} framework and is used to localize the tractor given the map and a Laser scan. 
+The point cloud to laser scan library used needed to be configured to work with the tractor's 3D LIDAR. 
+The BT Navigator server is part of the \gls{NAV2} framework. The planner server is using a totally 
+custom plugin, made from scratch that is used to get the Global Plan from the start and goal poses. The 
+controller server is also using a totally custom plugin, made from scratch, that is used to get 
+the velocities for forwards and backwards movements as well as the collision detection to stop the tractor. 
+
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.95\textwidth]{systemarchitecture.png}
+    \caption{System architecture overview. In pink are the components that have been completely implemented or configured, and in green the already available components from either NAV2, ROS2 or even the manufacturers.}
+    \label{fig:system_architecture}
 \end{figure}
