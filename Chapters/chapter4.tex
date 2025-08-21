@@ -355,10 +355,10 @@ to be completed successfully.
 
 The conventional A* has the following cost function for each node:
 $$f(n) = g(n) + h(n)$$
-where $f(n)$ is the total cost of the node, $g(n)$ is the cost to reach the node from the start node, 
+where $f(n)$ is the total cost of the node $n$, $g(n)$ is the cost to reach the node from the start node, 
 and $h(n)$ is the heuristic cost to reach the goal node from the current node. However, 
 in this case, since the orientation is a very important factor, it must be factored 
-into the cosst of each node, so the cost function is modified to:
+into the cost of each node, so the cost function is modified to:
 $$f(n) = g(n) + h(n) + ap(n) + dir(n)$$
 where $ap(n)$ is the angle penalty relative to the goal pose, and the $dir(n)$ 
 is the direction change cost. In an initial phase the robot would be constantly making 
@@ -369,4 +369,66 @@ the controller's job of following the planned path.
 These changes would not be enough in the end to make for efficient short hybrid path recoveries, 
 and the last change made was to make the $h(n)$ cost incremental, making the cost 
 of long segments too heavy to be chosen as the next node, and conditioning the 
-algorithm to prefer shorter paths.
+algorithm to prefer shorter paths. The final expression was the following:
+$$f(n) = g(n) + h(n) + h(n-1) + ap(n) + dir(n)$$
+
+
+\section{Controller Plugin}
+\label{sec:controller_plugin}
+\paragraph{}The controller plugin is the component responsible for giving accurate 
+velocity commands for the robot to follow the planned path. In the \gls{NAV2} stack, 
+to the velocity commands have a specific type and there's only the need to change the linear 
+and angular atributes of the message and return it. The controller's implementation, as a 
+plugin, is similar to the planner's in the sense that it is a C++ class that 
+implements the controller interface that has only a few methods that need to be implemented. 
+The first method is the setPlan method. As the name suggests, this method receives the 
+global plan created by the planner and stores it for when the controller may be called to 
+produce velocity values. Since this controller, when in reverse, uses the trailer as the 
+origin of movement, it would not make sense to have the tractor's plan as the goal 
+position, therefore, when the setPlan method is called, the global plan is stored as well as 
+a second plan with the trailer's position for each tractor position.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{trailerplan2.png}
+    \caption{Trailer's positions in pink. Tractor's positions in green.}
+    \label{fig:trailerplan}
+\end{figure}
+
+It is possible to observe in figure \ref{fig:trailerplan} that the trailer's 
+positions are not the same as the tractor's and curve in a different maner, as the trailer 
+would.
+
+The next method is the computeVelocityCommands method. This method receives the current 
+robot pose and computes the velocity values for the robot to have the desired behaviour 
+for its task. Since the used controller is the pure pursuit controller, the first step is 
+to compute the lookahead point in the stored path. For this, a for loop is used, starting 
+from the last point used, zero if it is the first time the controller is called, and iterating 
+over the points in the path until the lookahead distance is reached and the point chosen. 
+If the line between the current position and the point has an angle difference of more than 
+ninety degrees with the current robot heading, the robot will assume a reverse movement and 
+instead of using the global path's point, the trailer's path point in the same vector position 
+is used. Finally, with a constant linear velocity, changing only the sign for reversing or 
+forwards movement, the angular velocity is calculated using the expressions from section 
+\ref{sec:controller}, where the only adjustment made was to set the $k=2$. This value 
+was chosen after some testing and it was found to be the best value for the 
+controller to follow the path while ensuring that the trailer doesn't jackknife.
+
+The collision detection was also implemented in the controller plugin as all that is 
+needed for the robot to stop is to set both angular and linear velocities to zero. The 
+implementation was straightforward, as explained in section \ref{sec:collision}, with the 
+only caveat being that since the controller is using the local costmap for positioning, 
+there was the need to create auxiliary methods to get the transform the local position to 
+the global position, that is referencing the map's origin.
+
+\section{Behaviour Tree}
+\label{sec:behaviour_tree}
+
+The original behaviour tree used by the robot calls the for a plan once per second. This is 
+to ensure that the plan is always up to date with any changes in the environment and to 
+correct any navigation errors that may occur. However, due to the nature of the tractor-trailer system, 
+it was found that this was too frequently, as the new calculated paths would 
+cause the tractor to change directions abruptly, which would lead to unwanted movement by the trailer. 
+To account for this, the frequency of the planner was changed to run once every twenty seconds, 
+which ensured that the tractor would follow the initial path and only change it if 
+it gets in a situation where no progress is being made.

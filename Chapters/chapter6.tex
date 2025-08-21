@@ -1,0 +1,31 @@
+%!TEX root = ../template.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% chapter5.tex
+%% NOVA thesis document file
+%%
+%% Chapter with lots of dummy text
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Conclusion}
+\label{cha:conclusion}
+
+
+\paragraph{}This thesis presented the development, implementation, and validation of an autonomous tractor-trailer system for pesticide spraying in agricultural environments. The work began by identifying the pressing need for increased efficiency and safety in agriculture, especially in the context of global food demand and the challenges posed by traditional farming methods. The proposed solution was designed to address the unique difficulties of tractor-trailer navigation, including non-holonomic constraints, modularity, and the need for robust collision avoidance in complex and constrained spaces.
+
+\paragraph{}A comprehensive literature review established the context for mobile robotics in smart agriculture, motion planning approaches, and control methods, highlighting the importance of integrating advanced technologies such as AI and IoT. The architecture chapter detailed the modular design, hardware selection, and system overview, emphasizing the separation of tractor and trailer functionalities for greater flexibility and maintainability. The implementation chapter described the use of the \gls{ROS2} framework and \gls{NAV2} stack, which enabled modular development, reliable communication, and seamless integration of hardware and software components. The planning algorithm, combining Voronoi Hybrid A* and Dubins paths, provided efficient and feasible path generation, while the controller ensured accurate path tracking even under dynamic constraints.
+
+\paragraph{}Extensive testing in both simulated and real-world environments demonstrated the system's reliability, safety, and practical viability. The results showed that the robot could successfully navigate direct, obstructed, and recovery paths, as well as detect and avoid obstacles. The discussion highlighted the strengths of the system, such as its adaptability, robustness, and ability to handle uncertainty and noise, while also acknowledging areas for improvement, particularly in highly dynamic or narrow environments.
+
+\paragraph{}Overall, the thesis achieved its objectives and contributed a solid foundation for autonomous agricultural robotics. The successful implementation and validation of the proposed system demonstrate its potential for real-world deployment, offering significant benefits in terms of efficiency, safety, and scalability. The work also provides valuable insights and methodologies that can be extended to other agricultural and industrial applications.
+
+
+\section{Future Work}
+\label{sec:future_work}
+\paragraph{}While the current system proved successful, there are several promising directions for future research and development. Integrating GPS-based localization would greatly enhance the robot's performance in large-scale agricultural fields, where map-based localization may be limited. This improvement would allow for more accurate global positioning and facilitate operations over extended areas, making the system even more versatile and scalable.
+
+\paragraph{}Another important avenue is the redesign of the controller. By exploring advanced control strategies such as Model Predictive Control (MPC), the system could achieve even greater precision in path tracking, especially in highly dynamic or uncertain environments. MPC would enable the controller to anticipate future states and optimize control inputs over a prediction horizon, potentially reducing tracking errors and improving overall stability.
+
+\paragraph{}Finally, the use of machine learning techniques in the planning module could allow the system to learn from experience and adapt to new environments or unforeseen scenarios. Reinforcement learning could be used to train a planner that optimizes paths based on real-time feedback, while supervised learning could help classify and avoid obstacles more effectively. These approaches may lead to more robust and flexible navigation in diverse agricultural settings, further increasing the system's reliability and autonomy.
+
+\paragraph{}In summary, this thesis lays a comprehensive foundation for autonomous agricultural robotics. The successful implementation and validation of the proposed system demonstrate its real-world potential, and the suggested future improvements offer exciting opportunities for further research and innovation in the field.
+

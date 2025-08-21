@@ -64,15 +64,15 @@ After five repetitions these were the results obtained in the simulation:
         \hline
         \textbf{Processing Time (ms)} & \textbf{Dubins Length (m)} & \textbf{Hybrid A* length (m)} \\
         \hline
-         16.608 & 11.4719 & 0.0  \\
+         16.608 & 5.232 & 0.0  \\
         \hline
-         15.653 & 11.4719 & 0.0 \\
+         15.653 & 5.232 & 0.0 \\
          \hline
-         14.873 & 11.4719 & 0.0 \\
+         14.873 & 5.232 & 0.0 \\
          \hline
-         16.024 & 11.4719 & 0.0 \\
+         16.024 & 5.232 & 0.0 \\
          \hline
-         16.411 & 11.4719 & 0.0 \\
+         16.411 & 5.232 & 0.0 \\
          \hline
     \end{tabular}
     \caption{Simulation direct path creation results.}
@@ -84,15 +84,15 @@ After five repetitions these were the results obtained in the simulation:
         \hline
         \textbf{Time to goal (s)} & \textbf{Total Length (m)} \\
         \hline
-        20.06 & 11.4719 \\
+        20.06 & 5.232 \\
         \hline
-        19.87 & 11.4719 \\
+        19.87 & 5.232 \\
          \hline
-         19.54 & 11.4719 \\
+         19.54 & 5.232 \\
          \hline
-         20.11 & 11.4719 \\
+         20.11 & 5.232 \\
          \hline
-         19.72 & 11.4719 \\
+         19.72 & 5.232 \\
          \hline
     \end{tabular}
     \caption{Simulation direct path tracking results.}
@@ -119,7 +119,7 @@ After five repetitions these were the results obtained in the corridor:
         \hline
          67.483 & 8.89 & 0.0 \\
          \hline
-         65.633 & 8.83 & 0.0 \\
+         55.633 & 8.83 & 0.0 \\
          \hline
          55.864 & 8.88 & 0.0 \\
          \hline
@@ -175,15 +175,15 @@ After five repetitions these were the results obtained in the simulation:
         \hline
         \textbf{Processing Time (ms)} & \textbf{Dubins Length (m)} & \textbf{Hybrid A* length (m)} \\
         \hline
-         20.839 & 11.3756 & 0.0 \\
+         20.839 & 11.376 & 0.0 \\
         \hline
-         17.901 & 11.3756 & 0.0 \\
+         17.901 & 11.376 & 0.0 \\
          \hline
-         18.050 & 11.3756 & 0.0 \\
+         18.050 & 11.376 & 0.0 \\
          \hline
-         18.618 & 11.3756 & 0.0 \\
+         18.618 & 11.376 & 0.0 \\
          \hline
-         18.432 & 11.3756 & 0.0 \\
+         18.432 & 11.376 & 0.0 \\
          \hline
     \end{tabular}
     \caption{Simulation obstructed path creation results.}
@@ -195,15 +195,15 @@ After five repetitions these were the results obtained in the simulation:
         \hline
         \textbf{Time to goal (s)} & \textbf{Total Length (m)} \\
          \hline
-         51.83 & 11.3756 \\
+         51.83 & 11.376 \\
          \hline
-         50.52 & 11.3756 \\
+         50.52 & 11.376 \\
          \hline
-         51.45 & 11.3756 \\
+         51.45 & 11.376 \\
          \hline
-         53.70 & 11.3756 \\
+         53.70 & 11.376 \\
          \hline
-         52.44 & 11.3756 \\
+         52.44 & 11.376 \\
          \hline
     \end{tabular}
     \caption{Simulation obstructed path tracking results.}
@@ -418,6 +418,8 @@ gazebo environment and checking if the robot was able to detect it and stop
 before colliding with it. This was achieved by giving the robot an achievable 
 goal pose and moving the obstacle in front while the robot is following the path.
 
+For this test the parameterised range was one meter.
+
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.85\textwidth]{initial_pose.png}
@@ -427,6 +429,99 @@ goal pose and moving the obstacle in front while the robot is following the path
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.85\textwidth]{initial_path.png}
-    \caption{Initial path in the simulated environment.}
+    \caption{Initial path in the simulated environment. The blue arrows coming out from the tractor represent the collision detection range.}
     \label{fig:sim_obstacle_detection2}
 \end{figure}
+\clearpage
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.85\textwidth]{final_conf.png}
+    \caption{Final configuration in the simulated environment. The cilinder was moved and the robot stopped in the parameterised range.}
+    \label{fig:sim_obstacle_detection3}
+\end{figure}
+
+As observed in figure \ref{fig:sim_obstacle_detection3}, the robot was able to 
+detect the obstacle and come to a stop before colliding with it.
+\subsection{Real World Results}
+\paragraph{} The real world tests results can be shown in an annexed video, however, 
+the results were very similar and the robot was able to come to a stop and resume its 
+path after the obstacle was removed.
+
+\section{Discussion}
+\label{sec:discussion}
+
+\paragraph{}In this section, there will be an overview of the obtained results aswell 
+as some insights into the performance of the proposed methods aswell as their viability.
+
+\subsection{Path Tracking}
+\paragraph{} When it came to path tracking, if the goal pose was reachable by only moving 
+in the forwards direction, the robot would have absolutely no problem reaching it, even with 
+the presence of obstacles. However, when the goal pose required a change in direction 
+or a hitching manoeuvre, depending on the current configuration of the robot and the 
+environment, it couldn't be assured that the robot would be able to reach it. This, 
+of course, is due to the fact that the trailer's controller, despite being designed to 
+account for such scenarios, struggled when multiple manoeuvres were required in quick 
+succession, leading the robot to positions which weren't initialy in the path and could only 
+be recovered with a new planning iteration. This fact doesn't invalidate the proposed 
+solution as it still provides a successful navigation experience in the majority of 
+scenarios and only fails in specific situations where the  robot is in very narrow spaces 
+and is required to reverse or in position where the density of voronoi nodes is too low 
+to provide a path which avoids the obstacles.
+
+Addressing now the collected data on the tests, a relation of the processing time and the 
+length of the path and the length of the recovery segment could be observed. It was found 
+that as the length of the path increased, the processing time also increased, which is 
+expected as more computations are required to plan and execute longer paths. Also, the processing 
+time required for recovery segments was higher than for the dubins segments, meaning that 
+paths with similar lengths but one with half the length being Dubins and the other being 
+the hybrid A* would have a higher processing time than the one with just the Dubins segments. 
+This is also to be expected as the hybrid A* launches additional nodes during the search which 
+increases the overall computational load, compared to the Dubins segment which simply calculates 
+the mathematical path using a closed-form solution.
+
+% following table has the mean processing time, the mean hybrid length and dubins length and total length 
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{Test}  & \textbf{Mean Processing Time (ms)} & \textbf{Mean Total Length (m)}\\
+        \hline
+        Direct Path & 15.914 & 5.232  \\
+        \hline
+        Obstructed Path & 18.768 & 11.376  \\
+        \hline
+        Recovery Test & 24.213  & 10.6228  \\
+        \hline
+    \end{tabular}
+    \caption{Mean processing time and lengths of the paths in the simulation tests conducted.}
+    \label{tab:mean_processing_time_lengths}
+\end{table}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{Test}  & \textbf{Mean Processing Time (ms)} & \textbf{Mean Total Length (m)}\\
+        \hline
+        Direct Path & 59.146 & 8.87  \\
+        \hline
+        Obstructed Path & 60.678 & 11.885  \\
+        \hline
+        Recovery Test & 170.196  & 8.858  \\
+        \hline
+    \end{tabular}
+    \caption{Mean processing time and lengths of the paths in the real world tests conducted.}
+    \label{tab:mean_processing_time_lengths}
+\end{table}
+
+From the collected data, it is possible to assert that the previously mentioned trends hold true, both in 
+the simulations as in the real world tests. It was also observed that the recovery process was significantly 
+more computationaly complex than the Dubins segments, specialy in the real world tests, where the processing power 
+is significantly lower than in the simulation environment. Despite this, the time required to calculate a path proved 
+to be fast enough for the allocated task, as it would not be a critical issue in overall performance. Despite this, 
+the processing time would still be a factor to consider in future optimizations.
+
+\subsection{Obstacle Detection and Safety}
+\paragraph{} The obstacle detection module worked perfectly fine, both in simulation and in the real world, 
+with the only aspect to be improved being the time to detect and add the obstacles to the local costmap. However, 
+this improvement is outside the scope of this work as it is a standard tool provided by the \gls{NAV2} stack.
