@@ -15,7 +15,7 @@ system to be used for pesticide spraying in agricultural environments. The work 
 increased efficiency and safety in agriculture, especially in the context of global food demand and the challenges 
 posed by traditional farming methods. The proposed solution was designed to address the unique difficulties of 
 tractor-trailer navigation, including non-holonomic constraints, modularity, and the need for collision 
-avoidance in complex and constrained spaces.
+safety in complex and constrained spaces.
 
 \paragraph{}The literature review established the context for mobile robotics in smart agriculture, 
 motion planning approaches, and control methods, highlighting the importance of the design of an efficient 
@@ -38,11 +38,20 @@ industrial applications.
 
 \section{Future Work}
 \label{sec:future_work}
-\paragraph{}While the current system proved successful, there are several promising directions for future research and development. Integrating GPS-based localization would greatly enhance the robot's performance in large-scale agricultural fields, where map-based localization may be limited. This improvement would allow for more accurate global positioning and facilitate operations over extended areas, making the system even more versatile and scalable.
+\paragraph{}While the current system proved successful, there are several promising directions 
+for future research and development. Integrating GPS-based localization would greatly enhance 
+the robot's performance in large-scale agricultural fields, where map-based localization 
+may be limited. This improvement would allow for more accurate global positioning and 
+facilitate operations over extended areas, making the system even more versatile and scalable.
 
-\paragraph{}Another important avenue is the redesign of the controller. By exploring advanced control strategies such as Model Predictive Control (MPC), the system could achieve even greater precision in path tracking, especially in highly dynamic or uncertain environments. MPC would enable the controller to anticipate future states and optimize control inputs over a prediction horizon, potentially reducing tracking errors and improving overall stability.
+\paragraph{}Another important avenue is the redesign of the controller. The controller used 
+in this work, while effective in many scenarios, demonstrated difficulty when navigating in consecutive 
+changes in direction and curved maneuvers. By exploring more advanced control strategies 
+such as \gls{MPC} or Machine learning approaches, the system could achive more precise 
+control over its movements, leading to smoother and more reliable navigation.
 
-\paragraph{}Finally, the use of machine learning techniques in the planning module could allow the system to learn from experience and adapt to new environments or unforeseen scenarios. Reinforcement learning could be used to train a planner that optimizes paths based on real-time feedback, while supervised learning could help classify and avoid obstacles more effectively. These approaches may lead to more robust and flexible navigation in diverse agricultural settings, further increasing the system's reliability and autonomy.
-
-\paragraph{}In summary, this thesis lays a comprehensive foundation for autonomous agricultural robotics. The successful implementation and validation of the proposed system demonstrate its real-world potential, and the suggested future improvements offer exciting opportunities for further research and innovation in the field.
+\paragraph{}In summary, this thesis lays a foundation for autonomous 
+agricultural robotics. The successful implementation and validation of the proposed 
+system demonstrate its real-world potential, and the suggested future improvements offer 
+exciting opportunities for further research and innovation in the field.
 

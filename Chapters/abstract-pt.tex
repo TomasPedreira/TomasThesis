@@ -8,39 +8,43 @@
 
 \typeout{NT FILE abstract-pt.tex}%
 
-\paragraph{}Ao longo dos anos, o mundo da tecnologia tem-se expandido em todos os possíveis campos, 
-e a agricultura não é exceção. O uso de tecnologia na Agricultura Inteligente tem vindo a aumentar, 
-com redes de Internet of Things, sistemas de Inteligência Artificial para gestão e previsão, e robótica para 
-automatizar processos, realizando as tarefas repetitivas que os humanos preferem não fazer, como 
-aplicar pesticidas, colher produtos e avaliar o estado dos campos, além de algumas que os humanos 
-não conseguem fazer, como a vigilância de grandes áreas agrícolas. Estes desenvolvimentos não só 
-facilitam as tarefas, como também combatem problemas contínuos no ambiente agrícola, como a falta de 
-jovens dispostos a realizar trabalhos duros no campo e o aumento da população mundial, que irá 
-intensificar a necessidade de produção de alimentos.
-Este trabalho centra-se no desenvolvimento de um trator com reboque, capaz de navegar 
-autonomamente por um campo enquanto aplica pesticidas diretamente sobre os produtos. 
-O foco é na navegação do robô, investigando o uso da robótica na Agricultura de Precisão, 
-explorando métodos de planeamento de trajetórias para robôs, como Voronoi Graphs, Visibility Graphs, 
-abordagens baseadas em amostragem como o Rapidly exploring Random Trees e o Probabilistic Roadmap, algoritmos bio heurísticos como o Ant Colony Optimization, 
-Particle Swarm Optimization e Genetic Algorithm, e mencionando ainda métodos baseados em aprendizagem. Este trabalho também irá rever alguns 
-métodos de controlo incluídos na biblioteca nav2 do ROS2, como o Dynamic Windows Approach, Pure Pursuit e o Model Predictive Controller. Esta 
-tarefa já é desafiante por si só, no entanto, com a adição do reboque ao sistema, a tarefa torna-se 
-ainda mais complexa, pois será necessário considerar as dinâmicas do reboque. No final, os métodos 
-escolhidos para serem testados serão o Voronoi Graphs com o algoritmo A* para o planeamento de 
-trajetórias e o controlador Pure Pursuit para o seguimento da trajetória.
-O sistema trator-reboque foi escolhido, apesar da sua dificuldade e escassez de documentação, 
-devido à sua modularidade, permitindo que o seu funcionamento seja, por regra, independente e reutilizável.
+\paragraph{}Ao longo dos anos, o mundo da tecnologia tem-se expandido em todos os 
+campos, e a agricultura não é exceção. O uso de tecnologia na agricultura tem vindo a aumentar, com redes de Internet of Things, sistemas de 
+Inteligência Artificial para gestão e previsão, e robótica para automatizar processos, 
+realizando tarefas repetitivas que os humanos preferem não fazer, como aplicar 
+pesticidas, colher produtos e avaliar o estado dos campos, bem como tarefas que os 
+humanos não conseguem realizar facilmente, como vigiar grandes campos. Estes 
+desenvolvimentos facilitam tarefas e abordam desafios no 
+setor agrícola, incluindo a escassez de jovens dispostos a realizar trabalhos exigentes 
+no campo e o crescente aumento da população global, que irá intensificar a procura pela 
+produção de alimentos. Esta tese apresenta o desenvolvimento de um sistema 
+tractor-trailer capaz de navegar autonomamente. Inclui uma revisão de 
+aplicações robóticas na Agricultura Inteligente e uma exploração de métodos populares de 
+planeamento de trajetórias como o Voronoi Graph e o A* grid search e suas variantes juntamente com outros. Este 
+trabalho também revê vários métodos de controlo, incluindo Dynamic Window Approach, 
+Pure Pursuit e Model Predictive Control. Esta tarefa é inerentemente desafiante, e a 
+adição de um trailer ao sistema aumenta a complexidade, pois as dinâmicas do trailer 
+devem ser consideradas. Os métodos selecionados implementados e testados foram o Voronoi 
+Graph combinado com o algoritmo Hybrid A* para planeamento de trajetórias e o controlador Pure 
+Pursuit para seguimento de trajetória. O sistema foi arquitetado com componentes de 
+hardware, plugins personalizados de planner e controller no stack ROS2 e NAV2 e 
+mecanismos de deteção de colisões. Testes realizados em ambientes de simulação e 
+no mundo real avaliaram o seguimento de trajetória em cenários diretos, obstruídos e de 
+recuperação, bem como a deteção de obstáculos, demonstrando a eficácia do 
+sistema em navegação e a sua segurança, ao mesmo tempo que destacam áreas para melhoria. 
+O sistema tractor-trailer foi escolhido, apesar da sua complexidade e documentação 
+limitada, devido à sua modularidade, permitindo operação independente e reutilização.
 
 
 \keywords{ Agricultura Inteligente \and 
-trator-reboque \and
-IoT \and 
-Inteligência Artificial \and 
-Robótica \and 
-Planeamento de trajetórias \and 
+tractor-trailer \and
+Planeamento de trajetórias \and
+Seguimento de trajetória \and
 Controlo \and 
-ROS2 \and 
+ROS2 \and
+NAV2 \and
 Voronoi Graphs \and 
-A* \and 
-Pure Pursuit }
+Hybrid A* \and 
+Pure Pursuit 
+}
 % to add an extra black line
