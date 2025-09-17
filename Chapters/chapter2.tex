@@ -27,11 +27,11 @@ have to be an upgrade in agricultural production and to do it, there has been a 
 technologies to help gather information and make better decisions about the crop fields ~\cite{9716089}. 
 These technologies acquire data using several sensors, such as humidity sensors, pH sensors, 
 temperature sensors and substance level sensors, that communicate wirelessly using a variety 
-of case dependant protocols (like ZigBee or LoRa) to make decisions using specific algorithms 
+of case dependent protocols (like ZigBee or LoRa) to make decisions using specific algorithms 
 like PID controllers, Time-Controlled algorithms, Fuzzy-Logic or Machine Learning algorithms like neural networks.
 
 \paragraph{}According to ~\cite{robotics10020052, article34} there are also other factors to be considered and those are climate change and the heavy use 
-manual labour, which could be scarce if another pandemic or catastrophic event happens, preventing people from working. Agriculture will also 
+of manual labour, which could be scarce if another pandemic or catastrophic event happens, preventing people from working. Agriculture will also 
 need to adapt to this, not only using IoT and AI but also using mobile autonomous robots, alone or as a collaborative system. 
 These robots are used to perform manual labour tasks (seeding, planting, harvesting), acquire information 
 about the fields through physical sensors or cameras built into the robots, and apply pesticides and disease control.
@@ -53,7 +53,7 @@ a regular digital camera might not suffice, a more sophisticated camera with adv
 Additionally, some characteristics of the environment change, and therefore, the algorithms used must 
 account for factors such as direct sunlight, temperature, and humidity. Moreover, planning is the list of 
 decisions the robot has made to complete its task successfully. There are several algorithms used, however, 
-the most advanced ones are the sample-based ones which have greater performances. Finally, manipulation is the control of manipulators, 
+the most advanced ones are the sample-based ones which have greater performance. Finally, manipulation is the control of manipulators, 
 like robotic arms with grippers, to execute a certain task ~\cite{agriengineering2010010}. The choice of manipulator depends on the task, 
 however, some robots have multiple manipulators, called \gls{MIARs}, 
 to perform multiple tasks, ~\cite{agriengineering2010010} which reduces the number of robots and costs. Per ~\cite{article34, app10103453} some robots are also programmed 
@@ -65,15 +65,15 @@ The environment characteristics of Penghu, Taiwan, are prone to the overproducti
 to be fixed to fight its production. Since the terrain is very shallow and has a poor water retainability, in addition to droughts, the soil 
 has become arid which might make a wheeled robot bog down. The choice of locomotion for this robot were the tracks. For sensoring, a 9-axis 
 gyroscope, to get the robots deviation, a Webcam (Image Sensor), to get the fruits location, and a Lidar to measure the distance between itself 
-and any obstacle in its way. To harvest the fruit, it uses a e-axis robot arm with a gripper end-effector. Finaly, path-planning wise, it uses 
+and any obstacle in its way. To harvest the fruit, it uses a 6-axis robot arm with a gripper end-effector. Finally, path-planning wise, it uses 
 the 2-D SLAM algorithm to generate a pixel map and then the Dijkstra algorithm to calculate the fastest route to the target position. 
 The experiments on the field revealed a 97\% harvest success rate meaning the method used by the author is appropriate.
 
 \paragraph{}Another example of a solution is the robot in ~\cite{app12094335}, a platform robot developed to try to compensate for the aging of the South Korea’s 
 population which is causing a lack of young labour. The robot was designed to work on a paprika greenhouse with a 3-meter-wide corridor, 
 where workers traverse, and 0.5-meter-wide ridge between crops where the robot will operate. The ridges between crops have 
-hot water pipping which serve as rails and therefore the robot was designed to be both railed and free driven. Its locomotion system consists 
-of a two Wheeled drive kit with two main traction wheels in the middle, and four auxiliary smaller wheels to level the platform. Two in the front and 
+hot water piping which serve as rails and therefore the robot was designed to be both railed and free driven. Its locomotion system consists 
+of a two-wheeled drive kit with two main traction wheels in the middle, and four auxiliary smaller wheels to level the platform. Two in the front and 
 two in the back. To move autonomously it incorporated a Lidar, to map the environment, a camera, to detect objects, and an encoder, to get the 
 current position of the robot. The chassis was adapted to serve as a vacuum system, a lift table system or as just a manipulator. It had two controllers, 
 one for the movement control system and another for the manipulation system. However, only the movement system was tested. This robot was not 
@@ -129,12 +129,12 @@ keep dividing itself until every cell is either free of obstacles or fully occup
 \label{subsubsec:ApproxCD}
 \paragraph{}Finally, the Approximate Cell Decomposition approach simply divides the C-space into a grid with known cell size. The smaller the cells, 
 better optimised the path, however, more combinations of path exist making computation more time consuming. There are two types of Approximate Cell Decomposition, 
-8-connected and 4-connected where the former accounts for diagonal movement between nodes and the ladder only vertical and horizontal movement. 
+8-connected and 4-connected where the former accounts for diagonal movement between nodes and the latter only vertical and horizontal movement. 
 See Figure \ref{fig:ApproximateCellDecomposition} for 8-connected.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{AproxCD.png}
-    \caption{Approximate 8-connected Cell Decomposition representation; Arrows are all represent every possible movement the robot can make}
+    \caption{Approximate 8-connected Cell Decomposition representation; Arrows represent every possible movement the robot can make}
     \label{fig:ApproximateCellDecomposition}
 \end{figure}
 \subsection{Grid/Graph Search algorithms}
@@ -145,7 +145,7 @@ are the Dijkstra's algorithm and the A* algorithm.
 \subsubsection{Dijkstra's Algorithm}
 \label{subsubsec:Dijkstra}
 \paragraph{}Dijkstra’s algorithm works by looking at the node with the shortest distance to the root of the graph, which
-in the beginning is the root itself. Then it calculates the distance to all the nodes connected to the that node (every edge
+in the beginning is the root itself. Then it calculates the distance to all the nodes connected to that node (every edge
  has a weight), and then chooses the node with the shortest distance to the root. Every node keeps track of the 
 parent node and is updated if a shorter path to said node is found. This process is repeated until
 every node is visited. The path is then found by backtracking from the goal node to the root node. 
@@ -154,17 +154,17 @@ every node is visited. The path is then found by backtracking from the goal node
     \begin{minipage}[b]{0.3\textwidth}
         \centering
         \includegraphics[width=\textwidth]{dijkstraStart.png} % replace with your figure
-        \caption*{(a)}
+        \caption{(a)}
     \end{minipage}
     \begin{minipage}[b]{0.3\textwidth}
         \centering
         \includegraphics[width=\textwidth]{dijkstraMid.png} % replace with your figure
-        \caption*{(b)}
+        \caption{(b)}
     \end{minipage}
     \begin{minipage}[b]{0.3\textwidth}
         \centering
         \includegraphics[width=\textwidth]{dijkstraEnd.png} % replace with your figure
-        \caption*{(c)}
+        \caption{(c)}
     \end{minipage}
     \caption{8-connected Dijkstra's Algorithm; a) is the starting C-space; b) is a mid point of the algorithm; c) is the end point of the algorithm; The green squares are the searched neighbours, the red ones are the visited nodes and the blue ones are the chosen path.}
     \label{fig:Dijkstra}
@@ -191,23 +191,23 @@ backtracked from the goal node to the root node.
     \begin{minipage}[b]{0.3\textwidth}
         \centering
         \includegraphics[width=\textwidth]{dijkstraStart.png} % replace with your figure
-        \caption*{(a)}
+        \caption{(a)}
     \end{minipage}
     \begin{minipage}[b]{0.3\textwidth}
         \centering
         \includegraphics[width=\textwidth]{astarMid.png} % replace with your figure
-        \caption*{(b)}
+        \caption{(b)}
     \end{minipage}
     \begin{minipage}[b]{0.3\textwidth}
         \centering
         \includegraphics[width=\textwidth]{astarEnd.png} % replace with your figure
-        \caption*{(c)}
+        \caption{(c)}
     \end{minipage}
     \caption{8-connected A* Algorithm; a) is the starting C-space; b) is a mid point of the algorithm; c) is the end point of the algorithm; The green squares are the searched neighbours, the red ones are the visited nodes and the blue ones are the chosen path.}
     \label{fig:A*}
 \end{figure}
 
-As seen in Figure \ref{fig:A*}, the path has more diagonal transitions that the one in 
+As seen in Figure \ref{fig:A*}, the path has more diagonal transitions than the one in 
 Figure \ref{fig:Dijkstra}, making it slightly longer. This is due to the heuristic function used in the A* algorithm which 
 makes it go faster towards the goal, but not always in the shortest path.
 
@@ -254,7 +254,7 @@ This approach has difficulty in narrow environments because of its probabilistic
 \paragraph{}In ~\cite{9286439} this technique is used along with the \gls{APF} approach and the Approximate Cell Decomposition approach creating the HPPRM or 
 Hybrid Potential Based Probabilistic Roadmap, to avoid the problem mentioned. It first creates a Potential map with the obstacles’ information, 
 then it divides the map into a grid with cells with the same size. Afterwards classifies the cells into High or Low potential depending on the repulsive values calculated. 
-Higher potential cells would have more samples than lower potential ones since making connections in the ladder would be easier. After having the nodes, 
+Higher potential cells would have more samples than lower potential ones since making connections in the latter would be easier. After having the nodes, 
 the process is the same as the one in \gls{PRM}, connections between nodes are made and then the Dijkstra’s algorithm is used to obtain the shortest path between initial and 
 goal configurations.
 
@@ -268,7 +268,7 @@ not be optimal in a distance sense. As a solution to this problem, the RRT* algo
 is randomly generated, find the nearest node, create a node within the maximum distance from the nearest node and the sample. The difference is in the 
 connection to the tree, instead of connecting it to the nearest node, it searches the nodes around it, within a certain range, and checks if they can be 
 rewired so that the paths are shorter. The sampling ends when a short enough path is found, or the number of samples reaches the desired amount. 
-There is also another variation of \gls{RRT} which is the bidirectional \gls{RRT} which works exactly like the \gls{RRT} but both goal and stating configurations start 
+There is also another variation of \gls{RRT} which is the bidirectional \gls{RRT} which works exactly like the \gls{RRT} but both goal and starting configurations start 
 as a root to a tree, expanding towards each other.
 
 \paragraph{}In ~\cite{9638379}, a combination of variations of the \gls{RRT} are used. The author mentions the use of the Bi-RRT to find, in less time, a 
@@ -292,7 +292,7 @@ forming straight lines that do not go through objects. Once multiple connections
 Dijkstra's. However, this approach has the problem of being time complex and not being dimensionally scalable ~\cite{sym10100450}. 
 \paragraph{}An example of the usage of this method can be seen in~\cite{app10165613} where the visibility graph approach is used for in real time
 obstacle avoidance for a \gls{UAV}. However, due to mechanical restraints the aircraft needed the connections between edges to be smoother, and therefore
-used the Dubin's curves method, which makes a path from A to B using a sequence of straight and curved lined with a minimal R radius imposed
+used the Dubins curves method, which makes a path from A to B using a sequence of straight and curved lines with a minimal R radius 
 imposed by the necessary restraints ~\cite{aac5c909-7434-3d95-961b-caf3aec6a743}.
 Another example of the use of this approach is in ~\cite{LEE2021102887} where the author used the Visibility Graph and the Adaptive or Quadtree Cell Decomposition
 methods  to create a path for a marine USV for the coast of South Korea. The map was divided into a grid with four cells, NW, NE, SW, SE, and then would
@@ -312,8 +312,8 @@ may be obstacles or just workspace boundaries. Again, like in the Visibility Gra
 an algorithm like A* or Dijkstra.
 
 \paragraph{}The usage of this approach can be exemplified in ~\cite{8948325} where the author used the Voronoi Diagram along with the RRT* and Potential Field
-approaches to create a path for a \gls{UGV} in a indoors environment. Firstly, the planner would create a Voronoi Diagram of the C-space, however This
-would not suffice for a successful path plan due to the robots mechanical constraints. For this, a potential function was used to create a map
+approaches to create a path for a \gls{UGV} in an indoors environment. Firstly, the planner would create a Voronoi Diagram of the C-space, however This
+would not suffice for a successful path plan due to the robot's mechanical constraints. For this, a potential function was used to create a map
 where the most attractive points would be in the path chosen using the Voronoi Diagram. Afterwards, the RRT* algorithm was used to create the
 optimal path sampling with a bias towards the attractive field. Despite this approach being successful in most cases, there were still cases where
 the robot's dynamics would prevent it from following the desired path. The author then suggests that this problem would easily be overcome by
@@ -362,8 +362,8 @@ a $k$ ant of going from node $i$ to node $j$ at time $t$ is given by the followi
     P^k_{ij} = \frac{\tau_{ij}^{\alpha}(t)\eta_{ij}^{\beta}(t)}{\sum_{k \in N_{i}}\tau_{ik}^{\alpha}(t)\eta_{ik}^{\beta}(t)}
 \end{equation}
 where $N$ is the set of nodes connected to $i$, $\tau$ is the pheromone level of the path from $i$ to $j$, $\eta$ is the heuristic information or 
-proximity, $\alpha$ is the pheromone incentive factor which means that the larger the $\alpha$ the more wight the pheromone level has
-on the probability of a path being chosen, and $\beta$ which acts the same way as the precious coefficient only not for pheromone level
+proximity, $\alpha$ is the pheromone incentive factor which means that the larger the $\alpha$ the more weight the pheromone level has
+on the probability of a path being chosen, and $\beta$ which acts the same way as the previous coefficient only not for pheromone level
 but for proximity between nodes ~\cite{aocet1}. The pheromone level is updated at the end of each iteration using the following equation:
 \begin{equation}
     \tau_{ij}(t+1) = (1 - \rho)\tau_{ij}(t) + \rho\Delta\tau_{ij}(t)
@@ -372,7 +372,7 @@ where $\rho$ is the pheromone evaporation rate and $\Delta\tau_{ij}$ is the incr
 Given a maximum number of iterations, naturally the shortest path will be the one with the most pheromone left by the ants.
 Due to its robustness, global optimization ability, and possibly being used in combination with different heuristic 
 algorithms, the \gls{ACO} is widely used in path planning. However, in complex environments, the algorithm may get stuck in a local minima or get into a 
-Deadlock state where the ants can't escape from a specific node as there are not any not explored ones nearby ~\cite{aocet2}.
+Deadlock state where the ants can't escape from a specific node as there are not any explored ones nearby ~\cite{aocet2}.
 
 \paragraph{}In ~\cite{XIE2022104076} the author proposes an improvement to the \gls{ACO} algorithm to plan a path in a radioactive environment. 
 The proposed method added a chaos optimization algorithm to create initial random initial paths, it changed the pheromone
@@ -383,14 +383,14 @@ This method proved to be more efficient than the traditional \gls{ACO} and \gls{
 \paragraph{}This method is inspired on the evolution of species. The algorithm starts by creating a random population of chromosomes, each representing a 
 possible solution to the problem, like in the \gls{PSO}. With every iteration each chromosome is evaluated using a 
 fitness function, which is the cost function in the motion planning context. The better performing chromosomes have increased
-changes of being selected for reproduction. The reproduction process is done by selecting two chromosomes and crossing them over, creating
+chances of being selected for reproduction. The reproduction process is done by selecting two chromosomes and crossing them over, creating
 a new chromosome. This new chromosome can be mutated in order to create different solutions and therefore diversity. The process is repeated until a maximum amount of iterations
 is reached or a desired fitness level is achieved.
 \paragraph{}An improved version of this method was used in ~\cite{guo2019optimal} to plan a path for an Unmanned Surface Vehicle. The 
 chromosome encoding was done using sets of angles and velocities ($\theta$, $v$) creating one hour steps. In the traditional
 GA, mutation is done by replacing a parent gene with a random value. The author believes that this 
 approach is not optimal suggesting an alteration to the formula by taking the previous value and adding a 
-value dependant on the gene's position multiplied by a random value and a constant. This change in the approach
+value dependent on the gene's position multiplied by a random value and a constant. This change in the approach
 makes it so the mutated child will be closer to the parent, making convergence faster. The fitness function used
 is a Monte Carlo approximation of the cumulative detection probability which calculates the 
 efficiency of a path. This method showed better results than the traditional \gls{GA} as it had faster convergence
@@ -467,7 +467,7 @@ where $e(t_i)$ is the error between the reference point and the robot's current 
 $N_p$ and $N_c$ are the prediction and control horizons, and $Q$ and $R$ are the weighting matrices for the error and control input increment, respectively. 
 Additionally, the control action can be constrained by the robot's physical limitations, like maximum and minimum velocity, acceleration, and jerk.
 
-\subsection{Dynamic Windows Approach}
+\subsection{Dynamic Window Approach}
 \label{subsec:DWA}
 \paragraph{}The \gls{DWA} works by, like in the \gls{PP}, creating arcs the robot will follow. Firstly, it generates 
 circular trajectories with different pairs of velocities and angular velocities. Then it chooses 
@@ -493,7 +493,7 @@ Localization, to know where the robot is relative to the obstacles and the goal 
 \label{subsec:Localization}
 \paragraph{}Localization is the process of determining the robot's position and orientation in the world. 
 This process can be done using different methods, motion sensors that give speeds, accelerations and orientations, Vision sensors that can 
-get information about the robotics surroundings, however, its not possible to use these sensors alone as 
+get information about the robotics surroundings, however, it is not possible to use these sensors alone as 
 they can be noisy \cite{loc1} and, therefore, Kalman Filters are used to fuse the information from the 
 different sensors and get a more accurate position. This method is called Odometry.
 \paragraph{}Odometry alone cannot be used to get the robot's position as it is prone to drift over time \cite{odom1}, 
@@ -507,16 +507,16 @@ then, periodically, corrected by the \gls{AMCL} which uses a map of the world to
 \label{subsec:Mapping}
 \paragraph{}Mapping is the process of creating a 2D representation of the world and can be achieved using 
 algorithms like the \gls{SLAM}, where both the map and the robot's positions are 
-estimated at the same time, making it a very complex problem \cite{SLAM1}. There are a feew different 
+estimated at the same time, making it a very complex problem \cite{SLAM1}. There are a few different 
 solutions to this problem, the probabilistic approaches, such as the Kalman Filter, the 
 Particle Filter and Information filter \cite{SLAM1}, that are created from the Baye's Rule. \gls{SLAM} 
 is a very popular topics in robotics and there has been improvements to the traditional approaches 
-like the more recent Visual-SLAM or VSLAM which also use images to facilitate obstacle detetction and 
+like the more recent Visual-SLAM or VSLAM which also use images to facilitate obstacle detection and 
 tracking \cite{VSLAM1}.
 \section{Related Work}
 \label{sec:TTS}
 \paragraph{}Since the system that this thesis will be focusing on is a tractor-trailer system, 
-in this section there will be a brief explanation of the system and some ways its been approached.
+in this section there will be a brief explanation of the system and some ways it's been approached.
 
 \subsection{System Description}
 \label{subsec:SD}
@@ -537,7 +537,7 @@ following form ~\cite{theman, ttdynamics2}:
 \end{equation}
 where $x$ and $y$ are the hitch position, $v$ is the robot's velocity, 
 $\theta_0$ is the tractor's orientation, $\theta_1$ is the orientation of the trailer, $\phi$ is the 
-steering angle, and WB and RTR are the are the wheel base distance (distance between axles) 
+steering angle, and WB and RTR are the are wheel base distance (distance between axles) 
 and the distance between the hitch and the trailer's rear axle, respectively.
 
 \subsection{Applications}
@@ -548,11 +548,11 @@ as path trackers. The author concluded that the traditional approaches were not 
 to generating paths that wouldn't account for the trailer's non-holonomic constraints. Therefore, 
 a different version of the A* was used. The Hybrid A* is much like the traditional one, however, 
 instead of only being able to move to the nodes or grid cells, the nodes generated in the Hybrid A* 
-contain the robots dynamics $(x,y,\theta_0,\theta_1,d)$ where $d$ is the direction of motion of said 
+contain the robot's dynamics $(x,y,\theta_0,\theta_1,d)$ where $d$ is the direction of motion of said 
 node (forward or reverse), and can reach anywhere in the continuous state space. The cost of each 
 node is calculated penalizes the change of direction, backwards movement, steering input, change of 
 steering input, jack-knifing and path length. Since these nodes have discrete values, it is not 
-possible to always reach the desired nodes, therefore, the author used a Dubin's curve to connect 
+possible to always reach the desired nodes, therefore, the author used a Dubins curve to connect 
 waypoints generated by a traditional A* search on the Voronoi Graph. This approach was compared to the Hybrid A* without 
 the Voronoi Graphs and the Voronoi Hybrid A* was able to create slightly shorter paths a thousand times 
 faster. With a generated path, the author used two pure pursuit controllers that switched depending on the 
@@ -584,7 +584,7 @@ and $l_2$ is the distance between the hitch and the trailer's rear axle.
 The obstacles, walls and the robot were expressed as polygons to facilitate the collision avoidance as 
 this approach has no path planner, only a few hand placed waypoints. With these polygons, the 
 Farkas' lemma to create a constraint for the mpc controller by expressing the polygons as two matrices
-$A$ and $b$ to discritise the obstacles position and orientation.
+$A$ and $b$ to discretise the obstacles position and orientation.
 
 The cost function created took into consideration the deviation from the goal state, the deviation 
 from the reference translational velocity and the variation of input control:
@@ -598,7 +598,7 @@ The controller was constrained by the robot's physical limitations in $u^min$ an
 This cost function is minimised in every iteration until the horizon N is reached.
 
 This approach to path tracking was tested using a narrow environment with four waypoints that would 
-appear one by ne as the robot reached them. The testing occurred in two phases, one being in a static 
+appear one by one as the robot reached them. The testing occurred in two phases, one being in a static 
 environment and the other in a dynamic one. In the first one the robot was able to reach the 
 goal while managing tight curves and counter curves. However, in the second phase, the robot 
 encountered a problem when the dynamic obstacle was placed in front of the robot, as the robot couldn't 
@@ -628,18 +628,57 @@ The testing revealed that this approach could generate a feasible and smooth pat
 which for the time (1995) was quite a fast time. This approach wouldn't suffice for this thesis' 
 problem as a whole, however could be used as a path tracker instead of a path planner.
 
-\section{State of the art Summary}
-\paragraph{}To summarize, the tractor-trailer pesticide spraying robot proposed in this dissertation 
-could be of help in the agriculture industry, and, to develop this project there are several 
-approaches to be considered. When it comes to path planning, the Hybrid A* algorithm is a 
-good choice as its nodes take into account the robot's dynamics, this algorithm could be used 
-in combination with the Voronoi Graphs to create a faster path, like in \cite{theman}. To 
-control the robot, the most used option would be the \gls{MPC}, as it can predict 
-future states and optimize the tracking problem, however, this approach could be overkill if the path 
-is already calculated. The next best option would be the \gls{PP}, as it is simple and can reduce the tractor-trailer problem into 
-just a car problem by having steering and velocity as constant values. For a local planner, in case 
-a dynamic object appears in front of the robot, the \gls{MPC} could now be used to reach the next node in the path, 
-as it could take too much time for a complete replan of the path. 
+\paragraph{}In~\cite{APFAPP}, the authors present a unified trajectory planning and tracking framework for 
+autonomous tractor-trailer vehicles by integrating \gls{APF} into \gls{MPC}. 
+The APF models environmental interactions with attractive forces toward the goal and repulsive forces 
+from obstacles, which are embedded into the \gls{MPC} objective function to ensure dynamic feasibility, collision avoidance, 
+and adherence to kinematic constraints. The method is tested in Matlab/Simulink simulations covering overtaking, 
+obstacle cut-ins, emergency braking, and multi-obstacle avoidance. The results demonstrate robust collision-free 
+navigation and smooth trajectory execution, outperforming geometry-based planners in stability and optimality, 
+though it assumes low-speed maneuvers where kinematics suffice. Despite its apparent success, this method does not 
+deal with the problem of recovery manoeuvres in the case there is a need for reversing, which is 
+a common situation in narrow and complex environments.
 
-This project is a very important one, as there isn't a lot of documentation on solutions for this problem, and 
-especially in the context of Smart Agriculture.
+\paragraph{}Another example of path planning for tractor-trailer systems can be found in~\cite{lastapp}, 
+where the authors propose an optimization-based algorithm targeting on-road scenarios for articulated vehicles 
+composed of a tractor and a trailer, like transport trucks. The vehicle is modeled in a road-aligned coordinate frame to suit on-road 
+planning, incorporating driving heuristics into various optimization objectives aimed at minimizing the distance the tractor and trailer 
+deviate from the original path while staying on the road and avoiding obstacles. The approach is evaluated in 
+simulations on challenging on-road scenarios using demanding tractor-trailer dimensions. Results show that the planner 
+computes paths that effectively reduce off-tracking, with certain objectives performing better in tight maneuvers like 
+roundabouts, though computation times vary and some scenarios require tuning to avoid infeasible solutions. This method, 
+while effective in on-road scenarios, may not be directly applicable to the agricultural context of this thesis, 
+where environments may be more dynamic and may require .
+
+\section{State of the art Summary}
+\paragraph{}To summarize, the tractor-trailer pesticide spraying robot proposed in this 
+dissertation could be of help in the agriculture industry, and, to develop this project 
+there are several approaches to be considered. Various methods for path planning and control 
+in tractor-trailer systems have been explored in the literature. For instance, 
+optimization-based planners like those in \cite{lastapp} focus on on-road scenarios, 
+minimizing off-tracking through heuristics and objectives tailored to articulated vehicles, 
+performing well in simulations of tight maneuvers such as roundabouts but requiring parameter 
+tuning and potentially facing infeasibility in complex cases. Similarly, unified frameworks 
+integrating APF with MPC, as in \cite{APFAPP}, enable simultaneous planning and tracking, 
+handling dynamic obstacles in simulations like overtaking and emergency braking, though they 
+may not address reverse maneuvers essential for narrow agricultural spaces. Other approaches 
+include MPC-based trackers with manual waypoints \cite{mpconly}, which manage static and 
+dynamic environments but rely on predefined points and don't adapt the plan if there is a change 
+in the environment, and exact local planners using constant steering for integrable paths \cite{ttex3}, 
+generating quick feasible paths but lacking inherent obstacle avoidance without a global 
+planner. When it comes to path planning, the Hybrid A* algorithm is a good choice as its 
+nodes are placed in a way that allows for safe navigation where the trailer will not jackknife, 
+this algorithm could be used in combination with the Voronoi Graphs to create a faster path 
+by having a precomputed graph that the Hybrid A* can be ran on, like in \cite{theman}. 
+To control the robot, the most used options would be the optimal control controllers like 
+the \gls{MPC}, as it can predict future states and optimize the tracking problem, however, 
+this approach could be overkill if the path is already calculated. The next best option for 
+a rover would be the \gls{PP}, as it is simple to implement, calculates the velocities for 
+the robot to follow arcs, which is what the planer is being designed to account for. It can reduce 
+the tractor-trailer problem into just a car problem by having steering and velocity as 
+constant values. For a local planner, in case a dynamic object appears in front of the robot, 
+the \gls{MPC} could now be used to reach the next node in the path, as it could take too much 
+time for a complete replan of the path, however, if safety is a priority, overtaking an 
+obstacle is not a must, stopping and waiting for a replan is a valid option. This project 
+is a very important one, as there isn't a lot of documentation on solutions for this problem, 
+and especially in the context of Smart Agriculture.

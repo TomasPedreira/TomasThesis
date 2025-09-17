@@ -19,26 +19,26 @@ full system.
 \section{Software}
 \label{sec:software}
 \paragraph{}Since this system is composed of several different components that need 
-to run independantly, the software used will need to be robust enough to account for 
-each component's requirements, and for this task there the \gls{ROS} framework is used.
+to run independently, the software used will need to be robust enough to account for 
+each component's requirements, and for this task the \gls{ROS} framework is used.
 There are two versions of this framework, \gls{ROS} and \gls{ROS2}, the latter being the 
 most recent version, which is the one to be used in this project.
 
 \subsection{ROS2}
 \label{subsec:ros2}
 \paragraph{}The \gls{ROS2} framework is a set of software libraries and tools that 
-help developers create robotic applications. It is provides a set of solutions to various 
+help developers create robotic applications. It provides a set of solutions to various 
 problems, such as parallelism, communication, modularity, and hardware abstraction.
 
 It works by creating a network of nodes (python or c++ programs) that can communicate with each other 
 using a publish-subscribe model and a service-client model. The former is a broadcasting 
 model where a node can publish messages to a specific topic, and any other 
-program can subscribe to that same topic and receive those messages and usse them using callbacks. 
+program can subscribe to that same topic and receive those messages and use them using callbacks. 
 The latter is a request-response model where a specific node is the server and other 
 nodes can call it to request a specific service, which helps with modularity 
 as each node can have its own specific task and be developed independently. When it comes to 
 the hardware abstraction, since the software is wildly used in the robotics community 
-it already has a lot of packages and libraries that can be used to interpret data form 
+it already has a lot of packages and libraries that can be used to interpret data from 
 sensors, control actuators, and even simulate the robot in a virtual environment.
 
 
@@ -60,7 +60,7 @@ which is an xml file that defines the robot's behaviour, the TF a collection of 
 robot link to one another, the map is a 2D map representing the environment, and the sensor data is 
 the data collected by the robot's sensors. Secondly, some essencial elements are also the global and local 
 costmaps, which are 2D maps that instead of having binary values for if there's an obstacle or not, have 
-have costs for each cell that represent the difficulty of traversing that cell, the Global costmap 
+costs for each cell that represent the difficulty of traversing that cell, the Global costmap 
 has the map origin as a reference for the robot's position, while the local costmap is centered around 
 the robot's position. Having these concepts defined, we can now explain the different components of 
 the \gls{NAV2} stack. The BT navigator server is the main component of the navigation as it manages 
@@ -75,7 +75,64 @@ the other nodes in the navigation stack, ensuring that they are properly initial
 down as needed. These are the main components as the other servers are not essential for understanding 
 the navigation and overall architecture of the system.
 
+\section{Hardware}
+\label{sec:hardware}
 
+\paragraph{}The tractor used is an Agilex Scout which is a four wheeled differential driven robot, 
+equipped with a NVIDIA Jetson Agx Xavier as the main computer, a LIDAR and wheel decoders. 
+the NVIDIA Jetson Agx Xavier is a powerful computer capable of running complex algorithms in real time, 
+and is used to run the whole system, from path planning to control and sensor 
+perception. The Lidar and encoders are used to gather data for localization and mapping. This 
+robot can be teleoperated using a controller, or can be programmed 
+to do whatever autonomous task is required since all its instruments 
+are accessible in the Jetson Agx Xavier. The tractor is shown in the figure below:
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\textwidth]{tractor_gazebo.png}
+    \caption{Simulated tractor in Gazebo.}
+\end{figure}
+
+There's no representation of the jetson in the simulation since the program is running on 
+the same machine as the simulation. However, it is possible to 
+notice the Lidar rack on top of the other instruments. Once again, this is 
+but a representation for simulation purposes, as the real tractor has a similar 
+configuration, shown in figure \ref{fig:tractor}.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\textwidth]{tractorreal.jpg}
+    \caption{Real tractor.}
+    \label{fig:tractor}
+\end{figure}
+
+ 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\textwidth]{tractordim.png}
+    \caption{Agilex Scout dimensions \cite{scoutdim}.}
+    \label{fig:tractordim}
+\end{figure}
+
+The figures \ref{fig:tractor} and \ref{fig:tractordim} show the robot, its dimensions, and also 
+the additional rack, at the top, where the computer, Lidar and all other required electronics 
+are mounted.
+
+Additionally, the tractor is pulling a trailer, which is equipped with 
+a spray system, however for the sake of simplicity, to test the navigation 
+and control algorithms, the tests were done with the following trailer:
+\clearpage
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\textwidth]{trailergazebo.jpg}
+    \caption{Tractor-trailer system simulated in Gazebo Classic.}
+    \label{fig:trailergazebo}
+\end{figure}
+
+The trailer shown in figure \ref{fig:trailergazebo}, is a representation of a generic trailer, not having any specific 
+functions other than following the systems dynamics, which is the main focus of this work. 
+One particular aspect of this robot is that there's no sensor for 
+trailer position and, therefore, it is estimated in real time using the 
+system's dynamics shown in \ref{subsec:SD}.
 
 
 
@@ -88,7 +145,7 @@ the different physical properties of the environment as well as the structures a
 
 Since the robot will be operating in an agricultural environment, the world created for 
 the simulation would have to reflect that, so a simple world was created with five 
-corridors with traffic bariers on each side (to simulate trees or crops) and some additional 
+corridors with traffic barriers on each side (to simulate trees or crops) and some additional 
 obstacles to make for a more complex environment.
 \begin{figure}[H]
     \centering
@@ -99,19 +156,19 @@ obstacles to make for a more complex environment.
 
 Having the world isn't enough to have a fully autonomous robot, a map 
 of the world is also required for the localization and navigation components to work. 
-this map can be created using the \gls{SLAM} algorithm, as mentioned in the previous chapter \ref{sec:slam}. 
+this map can be created using the \gls{SLAM} algorithm, as mentioned in the previous chapter \ref{subsec:Mapping}. 
 Since the \gls{NAV2} stack already has a package that implements the \gls{SLAM} algorithm, all it needs is to 
 have the robot's model and sensors running in the environment, and it will create a map.
 The robot model used in this work is fortunately made available by its manufacturers 
 so it can be used in the simulation directly, and the sensors are simulated using their 
 Gazebo plugins, which allow the user to specify the sensor's properties, such as range, resolution, and noise.
-\clearpage
 \begin{figure}
     \centering
     \includegraphics[width=0.7\textwidth]{wall_map.png}
     \caption{Map created using the SLAM Package in the Gazebo Simulation. White space is non-occupied space, black are obstacles and grey is undiscovered space.}
     \label{fig:slam_map}
 \end{figure}
+\clearpage
 
 The map shown in figure \ref{fig:slam_map} is the result of mapping the simulated environment, 
 however, since this work aims to have an operational prototype, two other maps were created 
@@ -121,7 +178,7 @@ of crops.
 These last two maps, due to being created in real world locations, can't be 
 simulated in gazebo, so the hardware interface for the robot and its sensors 
 would need to be implemented in order to comunicate within the \gls{ROS2} framework. 
-Fortunately the necessary packages were all provided by the manufactures \cite{ScoutRepo, RoboSense} and only needed a few adjustments to 
+Fortunately the necessary packages were all provided by the manufacturers \cite{ScoutRepo, RoboSense} and only needed a few adjustments to 
 be completely integrated witin the system. Since the LIDAR used is a 3D LIDAR, the output 
 of the sensor is a point cloud, however, the \gls{SLAM} package used outputs 2D Maps and would need a 
 Laser Scan to be used. To overcome this a \gls{ROS2} package was used (Pointcloud to Laser Scan) that 
@@ -129,7 +186,7 @@ given the distance and angles that need to be covered, converts a point cloud in
 allowing for the \gls{SLAM} package to work as intended.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.90\textwidth]{basement.png}
+    \includegraphics[width=0.5\textwidth]{basement.png}
     \caption{Map of the concealed room.}
     \label{fig:basement_map}
 \end{figure}
@@ -200,7 +257,7 @@ areas compared to others, so a second iteration is made to correct this.
     \label{fig:voronoi_graph2}
 \end{figure}
 
-An then finalized with a third iteration that now resembles a more 
+And then finalized with a third iteration that now resembles a more 
 traditional Voronoi Graph.
 \begin{figure}[h]
     \centering
@@ -260,7 +317,7 @@ the position of the trailer to ensure that no collisions occur while the robot i
 following the path. However, the \gls{NAV2} stack has a limitation. There's a package 
 within the stack that allows for the calculation of the robot's joint values, the joint state 
 publisher. This package takes in the robot's model, described in a \gls{URDF} file, and calculates the joint values 
-based on the robot's movement. However this package does account for passive revolute joints, like 
+based on the robot's movement. However this package does not account for passive revolute joints, like 
 the trailer connector or trailer hitch. Not accounting for this would mean 
 that the trailer would either not be considered, which wouldn't make sense 
 as it is the whole purpose of this robot, that the trailer would be considered 
@@ -271,7 +328,7 @@ dynamics defined in \ref{subsec:APP} and integrates the tractor's movement
 allowing for approximate estimation of the trailer's hitch position and orientation.
 
 
-Having the trailer estimated and a rough path to follow, the nex step is to create the 
+Having the trailer estimated and a rough path to follow, the next step is to create the 
 Dubins path to the desired subgoal. As explained in \ref{sec:planner1}, starting from the farthest subgoal, 
 a Dubins path is created from the tractor's current position to the subgoal. Naturally, since a Dubins 
 path is a collection of two curves and a straight line, the path created may not be feasible as it might 
@@ -301,11 +358,11 @@ making the planner retry three times before a suitable subgoal is found and, bec
 is in clear view and aligned with the goal position, when the planner goes to repeat the algorithm 
 and a direct path is found.
 
-The last step to finish the controller is developing the recovery hybrid astar component. The previous 
+The last step to finish the controller is developing the recovery hybrid A* component. The previous 
 examples showed how iterating through the subgoals can lead to a valid path, however, in certain cases 
 it may not be the case and the loop would reach the start point without a valid path.
 
-For these cases, a specially designed recovery module is implemented. It works by, first, reading the 
+For these cases, a especially designed recovery module is implemented. It works by, first, reading the 
 configuration file to look for the maximum angles the arcs should have. Then, it devides the maximum 
 angle by the number of arcs the algorithm should have, forwards and backwards. These arcs are composed 
 of a user defined number of points distanced by a user defined distance, which the last point will be 
@@ -350,7 +407,7 @@ as shown in Figure \ref{fig:rseg1}.
 This, of course, led to the need for the number of segments, and their length, to be a variable 
 parameter and the problem was solved. The figure \ref{fig:recovery_module} shows an attempt at 
 making a ninety degree turn backwards. Since the Dubins path can only find paths that make the robot move 
-forwards, the hybrid A* was called and made the necessary segments to allow for the maneuvre 
+forwards, the hybrid A* was called and made the necessary segments to allow for the manoeuvre 
 to be completed successfully.
 
 The conventional A* has the following cost function for each node:
@@ -363,7 +420,7 @@ $$f(n) = g(n) + h(n) + ap(n) + dir(n)$$
 where $ap(n)$ is the angle penalty relative to the goal pose, and the $dir(n)$ 
 is the direction change cost. In an initial phase the robot would be constantly making 
 changes in direction going forwards and backwards multiple times, so the direction 
-change cost had to be implemented to avoid unnecessary oscillations and facilitate the 
+change cost had to be implemented to avoid unnecessary oscillations and facilitate  
 the controller's job of following the planned path.
 
 These changes would not be enough in the end to make for efficient short hybrid path recoveries, 
@@ -424,7 +481,7 @@ the global position, that is referencing the map's origin.
 \section{Behaviour Tree}
 \label{sec:behaviour_tree}
 
-The original behaviour tree used by the robot calls the for a plan once per second. This is 
+The original behaviour tree used by the robot calls for a plan once per second. This is 
 to ensure that the plan is always up to date with any changes in the environment and to 
 correct any navigation errors that may occur. However, due to the nature of the tractor-trailer system, 
 it was found that this was too frequently, as the new calculated paths would 

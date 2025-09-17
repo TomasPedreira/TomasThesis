@@ -8,33 +8,34 @@
 
 \typeout{NT FILE abstract-pt.tex}%
 
-\paragraph{}Ao longo dos anos, o mundo da tecnologia tem-se expandido em todos os 
-campos, e a agricultura não é exceção. O uso de tecnologia na agricultura tem vindo a aumentar, com redes de Internet of Things, sistemas de 
-Inteligência Artificial para gestão e previsão, e robótica para automatizar processos, 
-realizando tarefas repetitivas que os humanos preferem não fazer, como aplicar 
-pesticidas, colher produtos e avaliar o estado dos campos, bem como tarefas que os 
-humanos não conseguem realizar facilmente, como vigiar grandes campos. Estes 
-desenvolvimentos facilitam tarefas e abordam desafios no 
-setor agrícola, incluindo a escassez de jovens dispostos a realizar trabalhos exigentes 
-no campo e o crescente aumento da população global, que irá intensificar a procura pela 
-produção de alimentos. Esta tese apresenta o desenvolvimento de um sistema 
-tractor-trailer capaz de navegar autonomamente. Inclui uma revisão de 
-aplicações robóticas na Agricultura Inteligente e uma exploração de métodos populares de 
-planeamento de trajetórias como o Voronoi Graph e o A* grid search e suas variantes juntamente com outros. Este 
-trabalho também revê vários métodos de controlo, incluindo Dynamic Window Approach, 
-Pure Pursuit e Model Predictive Control. Esta tarefa é inerentemente desafiante, e a 
-adição de um trailer ao sistema aumenta a complexidade, pois as dinâmicas do trailer 
-devem ser consideradas. Os métodos selecionados implementados e testados foram o Voronoi 
-Graph combinado com o algoritmo Hybrid A* para planeamento de trajetórias e o controlador Pure 
-Pursuit para seguimento de trajetória. O sistema foi arquitetado com componentes de 
-hardware, plugins personalizados de planner e controller no stack ROS2 e NAV2 e 
-mecanismos de deteção de colisões. Testes realizados em ambientes de simulação e 
-no mundo real avaliaram o seguimento de trajetória em cenários diretos, obstruídos e de 
-recuperação, bem como a deteção de obstáculos, demonstrando a eficácia do 
-sistema em navegação e a sua segurança, ao mesmo tempo que destacam áreas para melhoria. 
-O sistema tractor-trailer foi escolhido, apesar da sua complexidade e documentação 
-limitada, devido à sua modularidade, permitindo operação independente e reutilização.
-
+\paragraph{}Ao longo dos anos, a tecnologia tem-se expandido em todos 
+os campos, e a agricultura não é exceção. A utilização na Agricultura 
+Inteligente tem aumentado, com redes de Internet das Coisas, sistemas de
+Inteligência Artificial para gestão e previsão, e robótica para 
+automatizar processos, realizando tarefas repetitivas que humanos 
+preferem evitar, como aplicar pesticidas, colher produtos e avaliar 
+campos, além de tarefas difíceis como vigiar grandes áreas. Estes 
+desenvolvimentos facilitam tarefas e abordam desafios no setor 
+agrícola, como a escassez de jovens para trabalhos de campo exigentes e o 
+crescimento da população global, intensificando a demanda por alimentos. 
+Esta tarefa é desafiante, e a adição de um atrelado aumenta a 
+complexidade, pois as dinâmicas do atrelado devem ser consideradas. O 
+sistema tractor-trailer foi escolhido, apesar da complexidade e 
+documentação limitada, pela sua modularidade, permitindo operação 
+independente e reutilização. Esta tese apresenta o desenvolvimento de 
+um sistema robótico tractor-trailer capaz de navegar autonomamente num 
+campo. Inclui revisão de aplicações robóticas na Agricultura Inteligente e 
+exploração de métodos de planeamento de trajetórias para robôs, como o 
+Voronoi Graph, A* juntamente com outros. Revê também métodos de controlo, 
+incluindo Dynamic Window Approach, Pure Pursuit e Model Predictive Control. 
+Os métodos selecionados, implementados e testados, foram o Voronoi Graph 
+combinado com Hybrid A* para planeamento de trajetórias e Pure Pursuit 
+para seguimento de trajetória. O sistema foi arquitetado com plugins personalizados 
+de planeador e controlador na stack ROS2 e NAV2, e mecanismos de 
+deteção de colisões. Testes em simulação e no mundo real avaliaram o 
+seguimento de trajetórias em cenários diretos, obstruídos e de 
+recuperação, além da deteção de obstáculos, demonstrando eficácia na 
+navegação e segurança, destacando áreas para melhoria.
 
 \keywords{ Agricultura Inteligente \and 
 tractor-trailer \and
@@ -43,7 +44,7 @@ Seguimento de trajetória \and
 Controlo \and 
 ROS2 \and
 NAV2 \and
-Voronoi Graphs \and 
+Voronoi Graph \and 
 Hybrid A* \and 
 Pure Pursuit 
 }

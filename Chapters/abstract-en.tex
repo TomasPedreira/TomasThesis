@@ -10,33 +10,37 @@
 
 \paragraph{}
 
-Over the years, the world of technology has been expanding in every 
-possible field, and agriculture is no exception. The use of technology in Smart 
-Agriculture has been increasing, with Internet of Things networks, Artificial 
-Intelligence systems for management and forecasting, and robotics to automate 
-processes, performing repetitive jobs humans would rather not do, such as applying 
-pesticides, harvesting products, and evaluating the state of the fields, as well as 
-tasks humans cannot easily accomplish, like surveilling large fields. These developments
- not only facilitate tasks but also address ongoing challenges in the agricultural 
- sector, including the shortage of young people willing to undertake demanding field 
- work and the growing global population, which will heighten the demand for food 
- production. This thesis presents the development of a tractor-trailer robotic system 
- capable of autonomously navigating through a field. It includes a review of 
- robotic applications in Smart Agriculture and an exploration of popular robot path planning 
- methods like the Voronoi Graph, A* grid search along with others. This work also reviews several control methods 
- including Dynamic Window Approach, Pure Pursuit, and Model 
- Predictive Control. This task is inherently challenging, and the addition of a 
- trailer to the system increases the complexity, as the trailer's dynamics must be 
- accounted for. The selected methods implemented and tested were the Voronoi Graph 
- combined with the Hybrid A* algorithm for path planning and the Pure Pursuit controller for 
- trajectory tracking. The system was architected with hardware components, custom 
- planner and controller plugins in ROS2 and NAV2 stack and collision detection mechanisms. 
- Tests conducted in simulation and real-world 
- environments evaluated path tracking in direct, obstructed, and recovery scenarios, 
- as well as obstacle detection, demonstrating the system's effectiveness in navigation 
- and safety while highlighting areas for improvement. The tractor-trailer system was 
- chosen, despite its complexity and limited documentation, due to its modularity, 
- enabling independent operation and reusability.
+Over the years, the world of technology has been expanding in every possible 
+field, and agriculture is no exception. The use of technology in Smart 
+Agriculture has been increasing, with Internet of Things networks, 
+Artificial Intelligence systems for management and forecasting, 
+and robotics to automate processes, performing repetitive jobs humans 
+would rather not do, such as applying pesticides, harvesting products, and 
+evaluating the state of the fields, as well as tasks humans cannot easily 
+accomplish, like surveilling large fields. These developments not only 
+facilitate tasks but also address ongoing challenges in the agricultural 
+sector, including the shortage of young people willing to undertake 
+demanding fieldwork and the growing global population, which will heighten 
+the demand for food production. This task is inherently challenging, 
+and the addition of a trailer to the system increases the complexity, 
+as the trailer’s dynamics must be accounted for. The tractor-trailer 
+system was chosen, despite its complexity and limited documentation, 
+due to its modularity, enabling independent operation and reusability. 
+This thesis presents the development of a tractor-trailer robotic system 
+capable of autonomously navigating through a field. It includes a review 
+of robotic applications in Smart Agriculture and an exploration of popular 
+robot path planning methods like the Voronoi Graph, A* grid search along 
+with others. This work also reviews several control methods including 
+Dynamic Window Approach, Pure Pursuit, and Model Predictive Control. 
+The selected methods implemented and tested were the Voronoi Graph 
+combined with the Hybrid A* algorithm for path planning and the Pure 
+Pursuit controller for trajectory tracking. The system was architected 
+with hardware components, custom planner and controller plugins in ROS2 
+and NAV2 stack and collision detection mechanisms. Tests conducted in 
+simulation and real-world environments evaluated path tracking in direct, 
+obstructed, and recovery scenarios, as well as obstacle detection, 
+demonstrating the system’s effectiveness in navigation and safety while 
+highlighting areas for improvement.
 
 \keywords{
   Smart Agriculture \and

@@ -14,45 +14,44 @@
 \paragraph{}There are two main types of tests that can be performed on the navigation 
 system. The first is the path tracking, where the processing time and the time 
 to the goal pose are measured. The second is the collision detection to evaluate 
-how safe are people or structures near the robot.
+how safe people or structures are near the robot.
 Since the navigation system has integrated noise and uncertainty, the test 
-results may vary, specially in the real world scenarios where the starting 
+results may vary, especially in the real world scenarios where the starting 
 and goal poses can be slightly different leading to extremely different results.
 
 \section{Path Tracking Tests}
 \label{sec:path_tracking_tests}
-There were conducted three tests each with five repetitions to evaluate 
-the path tracking performance. The first is a direct path, where the goal is 
+\paragraph{}The conducted tests aimed to evaluate 
+ how fast the algorithm can generate a path and if the robot can reach the goal 
+pose by tracking the generated path. The first test is a direct path, where the goal is 
 posted in front of the robot. The second is a curved path, where the goal is posted 
 behind an obstacle but the robot can reach it going forwards. The third and last 
 is a recovery test, where the goal is placed to the side of the robot, forcing 
 it to go backwards to realign itself. Every test is ran both in a simulation and 
 in the corridor environment.
-
 The simulated tests were made in a 13th Gen Intel(R) Core(TM) i9-13900H (2.60 GHz), 32 Gb RAM, 
 NVIDIA GeForce RTX 4070 with 12 Gb of VRAM, laptop running Ubuntu 22.04 in wsl2.
-Every test is conducted with a 0.8 meters of lookahead distance, a 0.3 m/s maximum linear 
-speed and a 0.5 m/s maximum angular speed as the controller parameters, and, 
+Every test is conducted with 0.8 meters of lookahead distance, 0.3 m/s maximum linear 
+speed and 0.5 m/s maximum angular speed as the controller parameters, and, 
 a turning radius of 1.2 meters, 15 hybrid segments of 10 centimeters each as the 
 planner parameters.
-Since the simulated environment is totally different form the real world scenarios, 
+Since the simulated environment is different from the real world scenarios, 
 these tests are not a comparison between the two, but rather a way to evaluate 
 the performance of the navigation system in different conditions.
 The test goes as follows, first the robot's pose is estimated, this is done by selecting 
-the position in the map where the robot is located in RVIZ or by launching the 
+the position where the robot is located in RVIZ or by launching the 
 navigation stack with the position in the parameters. The latter can only be done 
 in simulation due to the certainty of the location where the robot is initialised. It is 
 expected that in the real world tests the initial poses estimation will be less 
-accurated which will lead to slightly different trajectories even with the same goal 
-pose in the map.
-\clearpage
+accurate which will lead to different trajectories even with the same goal pose.
+
 \subsection{Direct Path}
 \label{subsec:direct_path}
 \subsubsection{Simulation Results}
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.95\textwidth]{testdirect.png}
+    \includegraphics[width=0.9\textwidth]{testdirect.png}
     \caption{Direct path test setup in the simulated environment. Goal pose in yellow.}
     \label{fig:direct_path}
 \end{figure}
@@ -60,42 +59,50 @@ After five repetitions these were the results obtained in the simulation:
 
 \begin{table}[H]
     \centering
+    \caption{Simulation direct path creation results.}
     \begin{tabular}{|c|c|c|}
         \hline
-        \textbf{Processing Time (ms)} & \textbf{Dubins Length (m)} & \textbf{Hybrid A* length (m)} \\
+        \textbf{Test} & \textbf{Processing Time (ms)} & \textbf{Dubins Length (m)}  \\
         \hline
-         16.608 & 5.232 & 0.0  \\
+         1 & 16.61 & 5.23   \\
         \hline
-         15.653 & 5.232 & 0.0 \\
+         2 & 15.65 & 5.23  \\
          \hline
-         14.873 & 5.232 & 0.0 \\
+         3 & 14.87 & 5.23  \\
          \hline
-         16.024 & 5.232 & 0.0 \\
+         4 & 16.02 & 5.23  \\
          \hline
-         16.411 & 5.232 & 0.0 \\
+         5 & 16.41 & 5.23  \\
+         \hline
+         Mean & 15.91 & 5.23  \\
+         \hline
+         Standard Deviation & 0.69 & 0 \\
          \hline
     \end{tabular}
-    \caption{Simulation direct path creation results.}
     \label{tab:direct_path_results1}
 \end{table}
 \begin{table}[H]
     \centering
-    \begin{tabular}{|c|c|}
+    \caption{Simulation direct path tracking results.}
+    \begin{tabular}{|c|c|c|}
         \hline
-        \textbf{Time to goal (s)} & \textbf{Total Length (m)} \\
+        \textbf{Test} &\textbf{Time to goal (s)} & \textbf{Total Length (m)} \\
         \hline
-        20.06 & 5.232 \\
+        1 & 20.06 & 5.23 \\
         \hline
-        19.87 & 5.232 \\
+        2 & 19.87 & 5.23 \\
          \hline
-         19.54 & 5.232 \\
+         3 & 19.54 & 5.23 \\
          \hline
-         20.11 & 5.232 \\
+         4 & 20.11 & 5.23 \\
          \hline
-         19.72 & 5.232 \\
+         5 & 19.72 & 5.23 \\
+         \hline
+         Mean & 19.86 & 5.23 \\
+         \hline
+         Standard Deviation & 0.24 & 0 \\
          \hline
     \end{tabular}
-    \caption{Simulation direct path tracking results.}
     \label{tab:direct_path_results2}
 \end{table}
 
@@ -103,7 +110,7 @@ After five repetitions these were the results obtained in the simulation:
 \subsubsection{Real World Results}
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.95\textwidth]{realonce.png}
+    \includegraphics[width=0.9\textwidth]{realonce.png}
     \caption{Direct path test setup in the corridor. Goal pose in yellow.}
     \label{fig:real1}
 \end{figure}
@@ -111,49 +118,54 @@ After five repetitions these were the results obtained in the simulation:
 After five repetitions these were the results obtained in the corridor:
 \begin{table}[H]
     \centering
+    \caption{Real world direct path creation results.}
     \begin{tabular}{|c|c|c|}
         \hline
-        \textbf{Processing Time (ms)} & \textbf{Dubins Length (m)} & \textbf{Hybrid A* length (m)} \\
+        \textbf{Test} & \textbf{Processing Time (ms)} & \textbf{Dubins Length (m)} \\
         \hline
-         64.011 & 8.88 & 0.0 \\
+         1 & 64.01 & 8.88  \\
         \hline
-         67.483 & 8.89 & 0.0 \\
+         2 & 67.48 & 8.89 \\
          \hline
-         55.633 & 8.83 & 0.0 \\
+         3 & 55.63 & 8.83 \\
          \hline
-         55.864 & 8.88 & 0.0 \\
+         4 & 55.86 & 8.88 \\
          \hline
-         52.740 & 8.87 & 0.0 \\
+         5 & 52.74 & 8.87 \\
          \hline
+         Mean & 59.14 & 8.87 \\
+         \hline
+        Standard Deviation & 6.27 & 0.02 \\
+        \hline
     \end{tabular}
-    \caption{Real world direct path creation results.}
     \label{tab:direct_path_results3}
     
 \end{table}
 \begin{table}[H]
     \centering
-    \begin{tabular}{|c|c|}
-        \hline
-        \textbf{Time to goal (s)} & \textbf{Total Length (m)} \\
-        \hline
-        37.92 & 8.88 \\
-        \hline
-        37.13 & 8.89 \\
-         \hline
-         38.03 & 8.83 \\
-         \hline
-         38.19 & 8.88 \\
-         \hline
-         38.32 & 8.87 \\
-         \hline
-    \end{tabular}
     \caption{Real world direct path tracking results.}
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{Test} & \textbf{Time to goal (s)} & \textbf{Total Length (m)} \\
+        \hline
+        1 & 37.92 & 8.88 \\
+        \hline
+        2 & 37.13 & 8.89 \\
+         \hline
+         3 & 38.03 & 8.83 \\
+         \hline
+         4 & 38.19 & 8.88 \\
+         \hline
+         5 & 38.32 & 8.87 \\
+         \hline
+        Mean & 37.92 & 8.87 \\
+        \hline
+        Standard Deviation & 0.47 & 0.02 \\
+        \hline
+    \end{tabular}
     \label{tab:direct_path_results4}
 \end{table}
 
-The varying lengths of paths are due to real world noise and lack of precision when 
-estimating the initial pose of the robot, which lead to slightly different trajectories 
-even when the goal pose is the same.
 \clearpage
 
 \subsection{Obstructed Path}
@@ -162,7 +174,7 @@ even when the goal pose is the same.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.95\textwidth]{testobstructed.png}
+    \includegraphics[width=0.85\textwidth]{testobstructed.png}
     \caption{Obstructed path test setup in the simulated environment. Goal pose in yellow.}
     \label{fig:obstructed_path}
 \end{figure}
@@ -171,42 +183,50 @@ After five repetitions these were the results obtained in the simulation:
 
 \begin{table}[H]
     \centering
+    \caption{Simulation obstructed path creation results.}
     \begin{tabular}{|c|c|c|}
         \hline
-        \textbf{Processing Time (ms)} & \textbf{Dubins Length (m)} & \textbf{Hybrid A* length (m)} \\
+        \textbf{Test} & \textbf{Processing Time (ms)} & \textbf{Dubins Length (m)}  \\
         \hline
-         20.839 & 11.376 & 0.0 \\
+         1 & 20.84 & 11.38 \\
         \hline
-         17.901 & 11.376 & 0.0 \\
+         2 & 17.90 & 11.38 \\
          \hline
-         18.050 & 11.376 & 0.0 \\
+         3 & 18.05 & 11.38 \\
          \hline
-         18.618 & 11.376 & 0.0 \\
+         4 & 18.62 & 11.38 \\
          \hline
-         18.432 & 11.376 & 0.0 \\
+         5 & 18.43 & 11.38 \\
          \hline
+        Mean & 18.77 & 11.38 \\
+        \hline
+        Standard Deviation & 1.19 & 0 \\
+        \hline
     \end{tabular}
-    \caption{Simulation obstructed path creation results.}
     \label{tab:obstructed_path_results1}
 \end{table}
 \begin{table}[H]
     \centering
-    \begin{tabular}{|c|c|}
-        \hline
-        \textbf{Time to goal (s)} & \textbf{Total Length (m)} \\
-         \hline
-         51.83 & 11.376 \\
-         \hline
-         50.52 & 11.376 \\
-         \hline
-         51.45 & 11.376 \\
-         \hline
-         53.70 & 11.376 \\
-         \hline
-         52.44 & 11.376 \\
-         \hline
-    \end{tabular}
     \caption{Simulation obstructed path tracking results.}
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{Test} & \textbf{Time to goal (s)} & \textbf{Total Length (m)} \\
+         \hline
+         1 & 51.83 & 11.38 \\
+         \hline
+         2 & 50.52 & 11.38 \\
+         \hline
+         3 & 51.45 & 11.38 \\
+         \hline
+         4 & 53.70 & 11.38 \\
+         \hline
+         5 & 52.44 & 11.38 \\
+         \hline
+        Mean & 51.99 & 11.38 \\
+        \hline
+        Standard Deviation & 1.18 & 0 \\
+        \hline
+    \end{tabular}
     \label{tab:obstructed_path_results2}
 \end{table}
 \clearpage
@@ -214,7 +234,7 @@ After five repetitions these were the results obtained in the simulation:
 \subsubsection{Real World Results}
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.95\textwidth]{realtwice.png}
+    \includegraphics[width=0.9\textwidth]{realtwice.png}
     \caption{Obstructed path test setup in the corridor. Goal pose in yellow.}
     \label{fig:real_obstructed}
 \end{figure}
@@ -223,49 +243,54 @@ After five repetitions these were the results obtained in the corridor:
 
 \begin{table}[H]
     \centering
+    \caption{Real world obstructed path creation results.}
     \begin{tabular}{|c|c|c|}
         \hline
-        \textbf{Processing Time (ms)} & \textbf{Dubins Length (m)} & \textbf{Hybrid A* length (m)} \\
+        \textbf{Test} & \textbf{Processing Time (ms)} & \textbf{Dubins Length (m)} \\
         \hline
-         57.429 & 11.878 & 0.0 \\
+        1 & 57.43 & 11.89 \\
         \hline
-         56.713 & 11.867 & 0.0 \\
+        2 & 56.71 & 11.87 \\
+        \hline
+        3 & 56.72 & 11.88 \\
+        \hline
+        4 & 66.03 & 11.91 \\
+        \hline
+        5 & 66.50 & 11.89 \\
          \hline
-         56.720 & 11.880 & 0.0 \\
-         \hline
-         66.029 & 11.912 & 0.0 \\
-         \hline
-         66.498 & 11.890 & 0.0 \\
-         \hline
+        Mean & 60.59 & 11.89 \\
+        \hline
+        Standard Deviation & 5.11 & 0.01 \\
+        \hline
     \end{tabular}
-    \caption{Real world obstructed path creation results.}
     \label{tab:obstructed_path_results3}
 \end{table}
 \begin{table}[H]
     \centering
-    \begin{tabular}{|c|c|}
-        \hline
-        \textbf{Time to goal (s)} & \textbf{Total Length (m)} \\
-         \hline
-         51.83 & 11.878 \\
-         \hline
-         50.52 & 11.867 \\
-         \hline
-         51.45 & 11.880 \\
-         \hline
-         53.70 & 11.912 \\
-         \hline
-         52.44 & 11.890 \\
-         \hline
-    \end{tabular}
     \caption{Real world obstructed path tracking results.}
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{Test} & \textbf{Time to goal (s)} & \textbf{Total Length (m)} \\
+         \hline
+         1 & 51.83 & 11.88 \\
+         \hline
+         2 & 50.52 & 11.87 \\
+         \hline
+         3 & 51.45 & 11.88 \\
+         \hline
+         4 & 53.70 & 11.91 \\
+         \hline
+         5 & 52.44 & 11.89 \\
+         \hline
+        Mean & 51.99 & 11.89 \\
+        \hline
+        Standard Deviation & 1.18 & 0.02 \\
+        \hline
+    \end{tabular}
     \label{tab:obstructed_path_results4}
 \end{table}
 
-The same reasoning applies to the varying lengths of paths as in the direct 
-path test, which is due to real world noise and lack of precision when 
-estimating the initial pose of the robot, leading to slightly different trajectories 
-even when the goal pose is the same.
+
 \clearpage
 
 \subsection{Recovery test}
@@ -275,7 +300,7 @@ even when the goal pose is the same.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.95\textwidth]{hybridastarpath1.png}
+    \includegraphics[width=0.85\textwidth]{hybridastarpath1.png}
     \caption{Recovery test setup in the simulated environment. Goal pose in yellow.}
     \label{fig:recovery_test}
 \end{figure}
@@ -283,42 +308,50 @@ After five repetitions these were the results obtained in the simulation:
 
 \begin{table}[H]
     \centering
-    \begin{tabular}{|c|c|c|}
-        \hline
-        \textbf{Processing Time (ms)} & \textbf{Dubins Length (m)} & \textbf{Hybrid A* length (m)} \\
-        \hline
-         25.990 & 6.101 & 4.527 \\
-        \hline
-         25.513 & 6.101 & 4.527 \\
-         \hline
-         22.841 & 6.101 & 4.527 \\
-         \hline
-         23.806 & 6.101 & 4.527 \\
-         \hline
-         22.914 & 6.101 & 4.527 \\
-         \hline
-    \end{tabular}
     \caption{Simulation recovery creation results.}
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        \textbf{Test} & \textbf{Processing Time (ms)} & \textbf{Dubins Length (m)} & \textbf{Hybrid A* length (m)} \\
+        \hline
+         1 & 25.99 & 6.10 & 4.53 \\
+        \hline
+         2 & 25.51 & 6.10 & 4.53 \\
+         \hline
+         3 & 22.84 & 6.10 & 4.53 \\
+         \hline
+         4 & 23.81 & 6.10 & 4.53 \\
+         \hline
+         5 & 22.91 & 6.10 & 4.53 \\
+         \hline
+        Mean & 24.21 & 6.10 & 4.53 \\
+        \hline
+        Standard Deviation & 1.47 & 0 & 0 \\
+        \hline
+    \end{tabular}
     \label{tab:recovery_path_results1}
 \end{table}
 \begin{table}[H]
     \centering
-    \begin{tabular}{|c|c|}
-        \hline
-        \textbf{Time to goal (s)} & \textbf{Total Length (m)} \\
-         \hline
-         20.83 & 10.628 \\
-         \hline
-         20.61 & 10.628 \\
-         \hline
-         21.14 & 10.628 \\
-         \hline
-         20.89 & 10.628 \\
-         \hline
-         20.45 & 10.628 \\
-         \hline
-    \end{tabular}
     \caption{Simulation recovery tracking results.}
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{Test} & \textbf{Time to goal (s)} & \textbf{Total Length (m)} \\
+         \hline
+         1 & 20.83 & 10.63 \\
+         \hline
+         2 & 20.61 & 10.63 \\
+         \hline
+         3 & 21.14 & 10.63 \\
+         \hline
+         4 & 20.89 & 10.63 \\
+         \hline
+         5 & 20.45 & 10.63 \\
+         \hline
+        Mean & 20.78 & 10.63 \\
+        \hline
+        Standard Deviation & 0.27 & 0 \\
+        \hline
+    \end{tabular}
     \label{tab:recovery_path_results2}
 \end{table}
 
@@ -327,85 +360,105 @@ After five repetitions these were the results obtained in the simulation:
 \subsubsection{Real World Results}
 
 \paragraph{}In the real world, the recovery test was not very reliable as the recovery 
-process varied significantly between trial, however the three trial conducted had the 
+process varied significantly between trial, however the conducted trials had the 
 following results.
+
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.85\textwidth]{recovery1.png}
-    \caption{Recovery test 1 setup in the real world environment. Goal pose in yellow.}
-    \label{fig:real_recovery_test1}
-\end{figure}
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.85\textwidth]{recovery2.png}
-    \caption{Recovery test 2 setup in the real world environment. Goal pose in yellow.}
+    \includegraphics[width=0.9\textwidth]{recovery2.png}
+    \caption{Recovery test setup in the real world environment. Goal pose in yellow.}
     \label{fig:real_recovery_test2}
 \end{figure}
-\clearpage
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.85\textwidth]{recovery3.png}
-    \caption{Recovery test 3 setup in the real world environment. Goal pose in yellow.}
-    \label{fig:real_recovery_test3}
-\end{figure}
-
-Note that the difference in color from the first test to the others is simply a 
-visualization definition and does not affect any result.
 
 It is possible to verify that the robot, despite being in a similar initial pose 
-and trying to achieve a similar goal pose, the planned paths are significantly different, which 
+and trying to achieve a similar goal pose, the planned paths are significantly different, like in figure \ref{fig:real_recovery_test3}, which 
 can sometimes lead to the robot not being able to reach due to the path 
-having a large amount of recovery turns. However, since the behaviour tree is 
+having a large amount of recovery turns demonstrated in figure \ref{fig:real_recovery_test1}. However, since the behaviour tree is 
 designed to have the planner run every 20 seconds, the planner is sometime able to 
 find a more desirable solution while still tracking the first plan. This often 
 corrects the initial trajectory, leading to a smoother path. This behaviour was present 
 during the third test as it began as a more complex recovery path, but after 
 a few seconds the planner found the path in figure \ref{fig:real_recovery_test4}.
 
-Naturally, due to having completely different paths, the processing times and 
+Naturally, due to having different paths, the processing times and 
 lengths of the paths are also different as shown in the tables below.
 
 \begin{table}[H]
     \centering
+    \caption{Real world recovery creation results.}
     \begin{tabular}{|c|c|c|c|}
         \hline
         \textbf{Test} & \textbf{Processing Time (ms)} & \textbf{Dubins Length (m)} & \textbf{Hybrid A* length (m)} \\
         \hline
-        1 & 150.990 & 5.126 & 3.418 \\
+        1 & 150.99 & 5.13 & 3.42 \\
         \hline
-        2 & 121.423 & 3.902 & 2.601 \\
+        2 & 121.42 & 3.90 & 2.60 \\
         \hline
-        3 & 238.174 & 6.340 & 5.187 \\
+        3 & 238.17 & 6.34 & 5.19 \\
+        \hline
+        4 & 254.42 & 3.92 & 6.35 \\
+        \hline
+        5 & 242.21 & 2.53 & 5.93 \\
+        \hline
+        Mean & 201.44 & 4.36 & 4.70 \\
+        \hline
+        Standard Deviation & 60.76 & 1.44 & 1.62 \\
         \hline
     \end{tabular}
-    \caption{Real world recovery creation results.}
     \label{tab:real_recovery_test_results1}
 \end{table}
 \begin{table}[H]
     \centering
+    \caption{Real world recovery tracking results.}
     \begin{tabular}{|c|c|c|}
         \hline
         \textbf{Test} & \textbf{Time to goal (s)} & \textbf{Total Length (m)} \\
         \hline
-        1 & 56.23 & 8.544 \\
+        1 & 56.23 & 8.54 \\
         \hline
-        2 & 24.35 & 6.503 \\
+        2 & 24.35 & 6.50 \\
         \hline
-        3 & 32.87 & 11.527 \\
+        3 & 32.87 & 11.53 \\
+        \hline
+        4 & not reached & 10.27 \\
+        \hline
+        5 & not reached & 8.46 \\
+        \hline
+        Mean & N/A & 9.06 \\
+        \hline
+        Standard Deviation & N/A & 1.92 \\
         \hline
     \end{tabular}
-    \caption{Real world recovery tracking results.}
     \label{tab:real_recovery_test_results2}
 \end{table}
+
+As shown in the previous tables, there were two tests with very similar initial and goal positions,
+the robot was not able to reach the goal pose. Since the robot would constantly try to replan
+its path, a "not reached" classification would be applied if the robot could not reach the goal in
+two minutes.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{recovery1.png}
+    \caption{Test where the resulting path was slightly different from the originally planned one.}
+    \label{fig:real_recovery_test3}
+\end{figure}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{recovery3.png}
+    \caption{Test where the path had too many manoeuvres for the controller to handle.}
+    \label{fig:real_recovery_test1}
+\end{figure}
 
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.85\textwidth]{recoverysquared.png}
-    \caption{Recovery correction of the third test setup in the real world environment. Goal pose in yellow.}
+    \includegraphics[width=0.8\textwidth]{recoverysquared.png}
+    \caption{Recovery correction of the previous test setup in the real world environment.}
     \label{fig:real_recovery_test4}
 \end{figure}
 
+
+\clearpage
 \section{Obstacle detection Tests}
 \label{sec:obstacle_detection_tests}
 \paragraph{}The obstacle detection tests were also conducted in the simulated environment 
@@ -432,21 +485,23 @@ For this test the parameterised range was one meter.
     \caption{Initial path in the simulated environment. The blue arrows coming out from the tractor represent the collision detection range.}
     \label{fig:sim_obstacle_detection2}
 \end{figure}
-\clearpage
+
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.85\textwidth]{final_conf.png}
-    \caption{Final configuration in the simulated environment. The cilinder was moved and the robot stopped in the parameterised range.}
+    \includegraphics[width=0.8\textwidth]{final_conf.png}
+    \caption{Final configuration in the simulated environment. The cylinder was moved and the robot stopped in the parameterised range.}
     \label{fig:sim_obstacle_detection3}
 \end{figure}
+\clearpage
 
 As observed in figure \ref{fig:sim_obstacle_detection3}, the robot was able to 
-detect the obstacle and come to a stop before colliding with it.
+detect the obstacle and come to a stop before colliding with it. The same test was 
+done with a reversing manoeuvre, and both can be seen in an annexed video.
 \subsection{Real World Results}
 \paragraph{} The real world tests results can be shown in an annexed video, however, 
 the results were very similar and the robot was able to come to a stop and resume its 
-path after the obstacle was removed.
-
+path after the obstacle was removed. There was no test for the reversing manoeuvre due to the 
+lack of a physical trailer, which would be the one to collide with any obstacle in such a scenario.
 \section{Discussion}
 \label{sec:discussion}
 
@@ -462,11 +517,17 @@ environment, it couldn't be assured that the robot would be able to reach it. Th
 of course, is due to the fact that the trailer's controller, despite being designed to 
 account for such scenarios, struggled when multiple manoeuvres were required in quick 
 succession, leading the robot to positions which weren't initialy in the path and could only 
-be recovered with a new planning iteration. This fact doesn't invalidate the proposed 
+be recovered with a new planning iteration, like in \ref{real_recovery_test1}. This fact doesn't invalidate the proposed 
 solution as it still provides a successful navigation experience in the majority of 
 scenarios and only fails in specific situations where the  robot is in very narrow spaces 
 and is required to reverse or in position where the density of voronoi nodes is too low 
-to provide a path which avoids the obstacles.
+to provide a path which avoids the obstacles. 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.85\textwidth]{failed.png}
+    \caption{Failed attempt where the robot needed to invert its pose within the corridor, leading to multiple successive changes in directions. Video also annexed.}
+    \label{fig:sim_obstacle_detection3}
+\end{figure}
 
 Addressing now the collected data on the tests, a relation of the processing time and the 
 length of the path and the length of the recovery segment could be observed. It was found 
@@ -483,40 +544,72 @@ the mathematical path using a closed-form solution.
 
 \begin{table}[H]
     \centering
+    \caption{Mean processing time and lengths of the paths in the simulation tests conducted.}
     \begin{tabular}{|c|c|c|}
         \hline
         \textbf{Test}  & \textbf{Mean Processing Time (ms)} & \textbf{Mean Total Length (m)}\\
         \hline
-        Direct Path & 15.914 & 5.232  \\
+        Direct Path & 15.91 & 5.23  \\
         \hline
-        Obstructed Path & 18.768 & 11.376  \\
+        Obstructed Path & 18.77 & 11.38  \\
         \hline
-        Recovery Test & 24.213  & 10.6228  \\
+        Recovery Test & 24.21  & 10.62  \\
         \hline
     \end{tabular}
-    \caption{Mean processing time and lengths of the paths in the simulation tests conducted.}
-    \label{tab:mean_processing_time_lengths}
+    \label{tab:mean_processing_time_lengths1}
 \end{table}
 \begin{table}[H]
     \centering
+    \caption{Mean processing time and lengths of the paths in the real world tests conducted.}
     \begin{tabular}{|c|c|c|}
         \hline
         \textbf{Test}  & \textbf{Mean Processing Time (ms)} & \textbf{Mean Total Length (m)}\\
         \hline
-        Direct Path & 59.146 & 8.87  \\
+        Direct Path & 59.14 & 8.87  \\
         \hline
-        Obstructed Path & 60.678 & 11.885  \\
+        Obstructed Path & 60.59 & 11.89  \\
         \hline
-        Recovery Test & 170.196  & 8.858  \\
+        Recovery Test & 201.44  & 9.06  \\
         \hline
     \end{tabular}
-    \caption{Mean processing time and lengths of the paths in the real world tests conducted.}
-    \label{tab:mean_processing_time_lengths}
+    \label{tab:mean_processing_time_lengths2}
+\end{table}
+\begin{table}[H]
+    \centering
+    \caption{Standard deviation processing time and lengths of the paths in the simulation tests conducted.}
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{Test}  & \textbf{SD Processing Time (ms)} & \textbf{SD Total Length (m)}\\
+        \hline
+        Direct Path & 0.69 & 0.00  \\
+        \hline
+        Obstructed Path & 1.19 & 0.00  \\
+        \hline
+        Recovery Test & 1.47  & 0.00  \\
+        \hline
+    \end{tabular}
+    \label{tab:mean_processing_time_lengths1}
+\end{table}
+\begin{table}[H]
+    \centering
+    \caption{Standard deviation from processing time and lengths of the paths in the real world tests conducted.}
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{Test}  & \textbf{SD Processing Time (ms)} & \textbf{SD Total Length (m)}\\
+        \hline
+        Direct Path & 6.27 & 0.02  \\
+        \hline
+        Obstructed Path & 5.11 & 0.02  \\
+        \hline
+        Recovery Test & 60.76  & 1.92  \\
+        \hline
+    \end{tabular}
+    \label{tab:mean_processing_time_lengths2}
 \end{table}
 
 From the collected data, it is possible to assert that the previously mentioned trends hold true, both in 
 the simulations as in the real world tests. It was also observed that the recovery process was significantly 
-more computationaly complex than the Dubins segments, specialy in the real world tests, where the processing power 
+more computationally complex than the Dubins segments, specialy in the real world tests, where the processing power 
 is significantly lower than in the simulation environment. Despite this, the time required to calculate a path proved 
 to be fast enough for the allocated task, as it would not be a critical issue in overall performance. Despite this, 
 the processing time would still be a factor to consider in future optimizations.
