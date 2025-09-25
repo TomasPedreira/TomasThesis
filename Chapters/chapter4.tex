@@ -37,7 +37,7 @@ program can subscribe to that same topic and receive those messages and use them
 The latter is a request-response model where a specific node is the server and other 
 nodes can call it to request a specific service, which helps with modularity 
 as each node can have its own specific task and be developed independently. When it comes to 
-the hardware abstraction, since the software is wildly used in the robotics community 
+the hardware abstraction, since the software is wildely used in the robotics community 
 it already has a lot of packages and libraries that can be used to interpret data from 
 sensors, control actuators, and even simulate the robot in a virtual environment.
 
@@ -85,12 +85,13 @@ and is used to run the whole system, from path planning to control and sensor
 perception. The Lidar and encoders are used to gather data for localization and mapping. This 
 robot can be teleoperated using a controller, or can be programmed 
 to do whatever autonomous task is required since all its instruments 
-are accessible in the Jetson Agx Xavier. The tractor is shown in the figure below:
+are accessible in the Jetson Agx Xavier. The tractor is shown in Figure \ref{fig:tractor_real} in a Gazebo simulation.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.75\textwidth]{tractor_gazebo.png}
     \caption{Simulated tractor in Gazebo.}
+    \label{fig:tractor_real}
 \end{figure}
 
 There's no representation of the jetson in the simulation since the program is running on 
@@ -146,7 +147,7 @@ the different physical properties of the environment as well as the structures a
 Since the robot will be operating in an agricultural environment, the world created for 
 the simulation would have to reflect that, so a simple world was created with five 
 corridors with traffic barriers on each side (to simulate trees or crops) and some additional 
-obstacles to make for a more complex environment.
+obstacles to make for a more complex environment, as shown in Figure \ref{fig:gazebo_world}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{gazeboworld.png}
@@ -162,7 +163,7 @@ have the robot's model and sensors running in the environment, and it will creat
 The robot model used in this work is fortunately made available by its manufacturers 
 so it can be used in the simulation directly, and the sensors are simulated using their 
 Gazebo plugins, which allow the user to specify the sensor's properties, such as range, resolution, and noise.
-\begin{figure}
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{wall_map.png}
     \caption{Map created using the SLAM Package in the Gazebo Simulation. White space is non-occupied space, black are obstacles and grey is undiscovered space.}
@@ -183,7 +184,7 @@ be completely integrated witin the system. Since the LIDAR used is a 3D LIDAR, t
 of the sensor is a point cloud, however, the \gls{SLAM} package used outputs 2D Maps and would need a 
 Laser Scan to be used. To overcome this a \gls{ROS2} package was used (Pointcloud to Laser Scan) that 
 given the distance and angles that need to be covered, converts a point cloud into a laser scan, 
-allowing for the \gls{SLAM} package to work as intended.
+allowing for the \gls{SLAM} package to work as intended. The maps created are shown in figures \ref{fig:basement_map} and \ref{fig:corridor_map}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{basement.png}
@@ -223,10 +224,10 @@ the planner is devided into three main components, the Voronoi Graph, the Dubins
 \paragraph{}The main function of the Voronoi Graph is to create a set of points in space that can be searched for a  
 simple path to the goal using an A* search. Due to the nature of calculating a Voronoi Graph, it can be very computationally 
 expensive, so the algorithm is ran offline, when the environment is mapped, and the resulting graph is saved to a 
-file for the online planner to use. To create this graph, a Ros2 python node was created that executes a script with 
+file for the online planner to use. To create this graph, a \gls{ROS2} python node was created that executes a script with 
 the previous behaviour.
 
-The algorithm first works by creating black and white image containing the edges of the obstacles and grouping them 
+The algorithm first works by creating black and white image containing the edges of the obstacles, seen in Figure \ref{fig:voronoi_edges}, and grouping them 
 into a single column of points which are then used to calculate the Voronoi Graph using the 
 Scipy library \cite{Scipy}. 
 This graph is then filtered to remove points that are inside the obstacles and remove points that are too close to each other. Points can be created inside the obstacles 
@@ -245,11 +246,11 @@ place on the original map, and  if they're not in white space, they're removed.
     \label{fig:voronoi_graph1}
 \end{figure}
 
-It is possible to verify that the graph isn't exacly perfect, as it doesn't 
+It is possible to verify, in Figure \ref{fig:voronoi_graph1}, that the graph isn't exactly perfect, as it doesn't 
 show the usual behaviour of a Voronoi Graph with straight lines equidistant to the 
 obstacles, however, this is due to the jagged nature of the edges of the obstacles, creating 
-several equidistant points. Dispite thos, this graph is pourly dense in some 
-areas compared to others, so a second iteration is made to correct this.
+several equidistant points. Despite this, the graph is poorly dense in some 
+areas compared to others, so a second iteration is made to correct this. Shown in Figure \ref{fig:voronoi_graph2}.
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.8\textwidth]{voronoi_graph_V101.png}
@@ -258,7 +259,7 @@ areas compared to others, so a second iteration is made to correct this.
 \end{figure}
 
 And then finalized with a third iteration that now resembles a more 
-traditional Voronoi Graph.
+traditional Voronoi Graph in Figure \ref{fig:voronoi_graph3}.
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.8\textwidth]{voronoi_graph_V102.png}
@@ -285,7 +286,7 @@ then used by the planner.
 \end{figure}
 \clearpage
 
-Once again, the Vorronoi Graphs aren't the usual straight line ones however, the environments 
+Once again, the Voronoi Graphs shown in Figures \ref{fig:basement_graph_002}, \ref{fig:corridor_graph_009}, and \ref{fig:voronoi_graph3} aren't the usual straight line ones, however, the environments 
 used are not simple and have several obstacles leading to irregular graphs.
 
 \subsection{Planner Plugin}
@@ -366,11 +367,11 @@ For these cases, a especially designed recovery module is implemented. It works 
 configuration file to look for the maximum angles the arcs should have. Then, it devides the maximum 
 angle by the number of arcs the algorithm should have, forwards and backwards. These arcs are composed 
 of a user defined number of points distanced by a user defined distance, which the last point will be 
-used as a new starting point and iterate through the subgoals again.
+used as a new starting point and iterate through the subgoals again. These arcs are visualized in Figure \ref{fig:arrows}.
 
 The process of creating these arcs uses the same logic as the verification of the Dubins path for 
 jackknifing, but instead of checking only for the trailer's hitch position, it checks for the tractor's 
-position and orientation aswell. It is a loop iterated over the number of points starting form the starting position 
+position and orientation as well. It is a loop iterated over the number of points starting from the starting position 
 and goes one by one, calculating the next point as if the trailer was steered through the defined angle. This 
 process created a number of arcs each time and can get computationally expensive if no subgoal can 
 be reached over a prolonged period of time. To mitigate this, a time limit is imposed and the user will have 

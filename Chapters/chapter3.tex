@@ -57,7 +57,7 @@ ability to generate feasible paths from the Hybrid A* and the
 added velocity of having a pre-computed Voronoi graph to expand 
 from.
 
-The following flowchart shows the logic of the planner, starting with 
+The following flowchart \ref{fig:plannerfc} shows the logic of the planner, starting with 
 the request for movement, assigning a goal target. Then, the planner will 
 perform an A* search on the pre computed Voronoi Graph, starting from the current robot 
 position, to the goal pose. The A* search will return a path which consists 
@@ -79,6 +79,7 @@ current algorithmic position to run the Dubins loop again.
     \centering
     \includegraphics[width=0.85\textwidth]{Flowchart.png}
     \caption{Planner logic flowchart}
+    \label{fig:plannerfc}
 \end{figure}
 \clearpage
 
@@ -290,7 +291,7 @@ obstacle is no longer in the way or another path update has been sent.
 
 The algorithm works by calculating the angle between the tractor and the chosen 
 subgoal in the path, then, it will check if there are any obstacles in the rectangle 
-created along the line connecting the tractor and subgoal. If true, the controller will 
+created along the line connecting the tractor and subgoal, as shown in Figure \ref{fig:collisiondetection}. If true, the controller will 
 signal that a collision is imminent and commands will be to stop and wait.
 
 \begin{figure}[h]
@@ -303,7 +304,7 @@ signal that a collision is imminent and commands will be to stop and wait.
 \section{Final Architecture}
 \label{sec:final_architecture}
 
-\paragraph{}The final architecture can be seen in figure \ref{fig:system_architecture}, 
+\paragraph{}The final architecture can be seen in Figure \ref{fig:system_architecture}, 
 where the modules are represented and how they interact with each other. The environment is either 
 the real world or a simulated world, and the sensors are the Lidar and wheel encoders, 
 which can be represented by their physical counterparts or simulation plugins. The state estimation module 

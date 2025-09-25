@@ -32,9 +32,8 @@ in the corridor environment.
 The simulated tests were made in a 13th Gen Intel(R) Core(TM) i9-13900H (2.60 GHz), 32 Gb RAM, 
 NVIDIA GeForce RTX 4070 with 12 Gb of VRAM, laptop running Ubuntu 22.04 in wsl2.
 Every test is conducted with 0.8 meters of lookahead distance, 0.3 m/s maximum linear 
-speed and 0.5 m/s maximum angular speed as the controller parameters, and, 
-a turning radius of 1.2 meters, 15 hybrid segments of 10 centimeters each as the 
-planner parameters.
+speed and 0.5 m/s maximum angular speed, and, 
+a turning radius of 1.2 meters, 15 segments of 10 centimeters each.
 Since the simulated environment is different from the real world scenarios, 
 these tests are not a comparison between the two, but rather a way to evaluate 
 the performance of the navigation system in different conditions.
@@ -43,7 +42,9 @@ the position where the robot is located in RVIZ or by launching the
 navigation stack with the position in the parameters. The latter can only be done 
 in simulation due to the certainty of the location where the robot is initialised. It is 
 expected that in the real world tests the initial poses estimation will be less 
-accurate which will lead to different trajectories even with the same goal pose.
+accurate which will lead to different trajectories even with the same goal pose. Figures \ref{fig:direct_path} 
+to \ref{fig:real_recovery_test4} illustrate the paths created in the various tests and tables 
+\ref{tab:direct_path_results1} to \ref{tab:mean_processing_time_lengths2} show the resulting data collected.
 
 \subsection{Direct Path}
 \label{subsec:direct_path}
@@ -438,13 +439,13 @@ its path, a "not reached" classification would be applied if the robot could not
 two minutes.
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\textwidth]{recovery1.png}
+    \includegraphics[width=0.7\textwidth]{recovery1.png}
     \caption{Test where the resulting path was slightly different from the originally planned one.}
     \label{fig:real_recovery_test3}
 \end{figure}
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\textwidth]{recovery3.png}
+    \includegraphics[width=0.7\textwidth]{recovery3.png}
     \caption{Test where the path had too many manoeuvres for the controller to handle.}
     \label{fig:real_recovery_test1}
 \end{figure}
@@ -452,7 +453,7 @@ two minutes.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\textwidth]{recoverysquared.png}
+    \includegraphics[width=0.7\textwidth]{recoverysquared.png}
     \caption{Recovery correction of the previous test setup in the real world environment.}
     \label{fig:real_recovery_test4}
 \end{figure}
@@ -505,8 +506,8 @@ lack of a physical trailer, which would be the one to collide with any obstacle 
 \section{Discussion}
 \label{sec:discussion}
 
-\paragraph{}In this section, there will be an overview of the obtained results aswell 
-as some insights into the performance of the proposed methods aswell as their viability.
+\paragraph{}In this section, there will be an overview of the obtained results as well 
+as some insights into the performance of the proposed methods as well as their viability.
 
 \subsection{Path Tracking}
 \paragraph{} When it came to path tracking, if the goal pose was reachable by only moving 
@@ -517,7 +518,7 @@ environment, it couldn't be assured that the robot would be able to reach it. Th
 of course, is due to the fact that the trailer's controller, despite being designed to 
 account for such scenarios, struggled when multiple manoeuvres were required in quick 
 succession, leading the robot to positions which weren't initialy in the path and could only 
-be recovered with a new planning iteration, like in \ref{real_recovery_test1}. This fact doesn't invalidate the proposed 
+be recovered with a new planning iteration, like in \ref{fig:real_recovery_test1}. This fact doesn't invalidate the proposed 
 solution as it still provides a successful navigation experience in the majority of 
 scenarios and only fails in specific situations where the  robot is in very narrow spaces 
 and is required to reverse or in position where the density of voronoi nodes is too low 
@@ -526,7 +527,7 @@ to provide a path which avoids the obstacles.
     \centering
     \includegraphics[width=0.85\textwidth]{failed.png}
     \caption{Failed attempt where the robot needed to invert its pose within the corridor, leading to multiple successive changes in directions. Video also annexed.}
-    \label{fig:sim_obstacle_detection3}
+    \label{fig:sim_obstacle_detection4}
 \end{figure}
 
 Addressing now the collected data on the tests, a relation of the processing time and the 
