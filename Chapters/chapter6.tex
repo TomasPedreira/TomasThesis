@@ -23,7 +23,7 @@ navigation system. The architecture chapter detailed the design, hardware select
 implementation chapter described the use of the \gls{ROS2} framework and \gls{NAV2} stack, which enabled modular 
 development, and seamless integration of hardware and software components. The planning 
 algorithm, combining Voronoi Hybrid A* and Dubins paths, provided feasible path generation, while the 
-controller ensured accurate path tracking in the majority of scenarios.
+tracker ensured accurate path tracking in the majority of scenarios.
 
 \paragraph{}Testing in both simulated and real-world environments demonstrated the system's reliability, 
 safety, and practical viability. The results showed that the robot could successfully navigate direct, obstructed, and 
@@ -44,7 +44,7 @@ the robot's performance in large-scale agricultural fields, where map-based loca
 may be limited. This improvement would allow for more accurate global positioning and 
 facilitate operations over extended areas, making the system even more versatile and scalable.
 
-\paragraph{}Another important avenue is the redesign of the controller. The controller used 
+\paragraph{}Another important avenue is the redesign of the tracker. The tracker used 
 in this work, while effective in many scenarios, demonstrated difficulty when navigating in consecutive 
 changes in direction and curved manoeuvres. By exploring more advanced control strategies 
 such as \gls{MPC} or machine learning approaches, the system could achieve more precise 

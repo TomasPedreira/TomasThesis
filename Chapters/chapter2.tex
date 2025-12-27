@@ -85,7 +85,7 @@ The autonomous driving had some problems with the steering and network making it
 \paragraph{}Motion planning is of the most important steps to achieve autonomous movement in robots, and there are several methods that can be implemented to achieve this.
 The goal is to calculate a path that will get the configuration of the robot from a starting position qstart to a goal configuration qgoal, without colliding 
 with any obstacle, and to achieve this there exist several methods.
-In ~\cite{tamizi2023review, LIU2023120254}, the methods are divided into two categories, Classical Approaches, which include Cell Decomposition, Roadmapping, Sampling-based, and 
+In ~\cite{tamizi2023review, LIU2023120254}, the methods are divided into two categories, Classical Approaches, which include Cell Decomposition, Sampling-based,  
 Bio-Inspired approaches, Roadmapping approaches, and the Learning Approaches which are the Supervised learning, Unsupervised learning and Reinforcement Learning based approaches. 
 Additionally, according to ~\cite{LIU2023120254}, there are two types of planners, Global and Local planners. Global planning is when a path is planned with prior 
 knowledge of the environment, whereas Local planning is when a path is planned reactively as the knowledge of the environment is being acquired in real time. 
@@ -505,7 +505,7 @@ Localization, to know where the robot is relative to the obstacles and the goal 
 This process can be done using different methods, motion sensors that give speeds, accelerations and orientations, Vision sensors that can 
 get information about the robotics surroundings, however, it is not possible to use these sensors alone as 
 they can be noisy \cite{loc1} and, therefore, Kalman Filters are used to fuse the information from the 
-different sensors and get a more accurate position. This method is called Odometry.
+different sensors and get a more accurate position. This method is called Odometry or sometimes, Dead Reckoning.
 \paragraph{}Odometry alone cannot be used to get the robot's position as it is prone to drift over time \cite{odom1}, 
 and therefore, other methods are used to correct the accumulated error. One of the most common methods is 
 the \gls{AMCL}. This method uses a particle filter to achieve a more accurate position, however,it requires 
@@ -638,7 +638,7 @@ The testing revealed that this approach could generate a feasible and smooth pat
 which for the time (1995) was quite a fast time. This approach wouldn't suffice for this thesis' 
 problem as a whole, however could be used as a path tracker instead of a path planner.
 
-\paragraph{}In~\cite{APFAPP}, the authors present a unified trajectory planning and tracking framework for 
+\paragraph{}In ~\cite{APFAPP}, the authors present a unified trajectory planning and tracking framework for 
 autonomous tractor-trailer vehicles by integrating \gls{APF} into \gls{MPC}. 
 The APF models environmental interactions with attractive forces toward the goal and repulsive forces 
 from obstacles, which are embedded into the \gls{MPC} objective function to ensure dynamic feasibility, collision avoidance, 
@@ -649,7 +649,7 @@ though it assumes low-speed maneuvers where kinematics suffice. Despite its appa
 deal with the problem of recovery manoeuvres in the case there is a need for reversing, which is 
 a common situation in narrow and complex environments.
 
-\paragraph{}Another example of path planning for tractor-trailer systems can be found in~\cite{lastapp}, 
+\paragraph{}Another example of path planning for tractor-trailer systems can be found in ~\cite{lastapp}, 
 where the authors propose an optimization-based algorithm targeting on-road scenarios for articulated vehicles 
 composed of a tractor and a trailer, like transport trucks. The vehicle is modeled in a road-aligned coordinate frame to suit on-road 
 planning, incorporating driving heuristics into various optimization objectives aimed at minimizing the distance the tractor and trailer 
@@ -680,7 +680,7 @@ planner. When it comes to path planning, the Hybrid A* algorithm is a good choic
 nodes are placed in a way that allows for safe navigation where the trailer will not jackknife, 
 this algorithm could be used in combination with the Voronoi Graphs to create a faster path 
 by having a precomputed graph that the Hybrid A* can be ran on, like in \cite{theman}. 
-To control the robot, the most used options would be the optimal control controllers like 
+To control the robot, the most used options would be the optimal controllers like 
 the \gls{MPC}, as it can predict future states and optimize the tracking problem, however, 
 this approach could be overkill if the path is already calculated. The next best option for 
 a rover would be the \gls{PP}, as it is simple to implement, calculates the velocities for 
@@ -691,4 +691,27 @@ the \gls{MPC} could now be used to reach the next node in the path, as it could 
 time for a complete replan of the path, however, if safety is a priority, overtaking an 
 obstacle is not a must, stopping and waiting for a replan is a valid option. This project 
 is a very important one, as there isn't a lot of documentation on solutions for this problem, 
-and especially in the context of Smart Agriculture.
+and especially in the context of Smart Agriculture. A list of the algorithms used in tractor--trailer and 
+articulated robotic systems considered in this section is provided in Table~\ref{tab:applications_2_5_2}.
+
+\begin{table}[htbp]
+\centering
+\caption{Applications of tractor-trailer and articulated robotic systems}
+\label{tab:applications_2_5_2}
+\begin{tabular}{|c|l|l|l|l|}
+\hline
+\textbf{Ref.} & \textbf{System} & \textbf{Planner} & \textbf{Path Tracker}  \\
+\hline
+{~\cite{theman}} & General Tractor-trailer & Hybrid Voronoi A* & \gls{PP}  \\
+\hline
+{~\cite{mpconly}} & General Tractor-trailer & N/A & \gls{MPC} \\
+\hline
+{~\cite{ttex3}} & General Tractor-trailer & Exact planner &  N/A \\
+\hline
+{~\cite{APFAPP}} & General Tractor-trailer & \gls{APF} & \gls{MPC}  \\
+\hline
+{~\cite{lastapp}} & Transport truck & N/A & Optimal Controller  \\
+\hline
+\end{tabular}
+\end{table}
+

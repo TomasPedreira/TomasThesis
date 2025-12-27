@@ -35,17 +35,17 @@ The solution proposed in this work is divided into four main modules:
     \item \textbf{Environment}: This module is responsible for the representation of the real world, or actually be the real world. This is where the robot will operate.
     \item \textbf{Sensor perception}: This module is responsible for gathering data from the environment and converting it into usable information like localization and estimation.
     \item \textbf{Path planning}: This module is responsible for generating a feasible path from the current position to the desired goal.
-    \item \textbf{Control}: This module is responsible for tracking the generated path and ensuring the tractor-trailer system follows it safely without collisions.
+    \item \textbf{Control/Tracking}: This module is responsible for tracking the generated path and ensuring the tractor-trailer system follows it safely without collisions.
 \end{itemize}
 
 From the modules mentioned above, the ones that are implemented in this work are mainly 
-the path planning and control modules, however, in order to test and develop the system, 
+the path planning and path tracking modules, however, in order to test and develop the system, 
 the environment and sensors were simulated.
 
 The overall functioning of the system is as follows: the tractor is at a point in the environment, simulation or real world, 
 the user then requests a movement to a specific position, the path planning module will then generate a path from the current 
 position, estimated with sensor gathered data, to the desired goal. The path is then forwarded to the 
-controller which will then track it by computing the necessary angular and linear velocities while ensuring the 
+path tracker which will then track it by computing the necessary angular and linear velocities while ensuring the 
 physical constraints of the tractor-trailer system are respected.
  
 
@@ -223,13 +223,13 @@ arrows the segments created, forwards and backwards, representing the recovery p
 The amount of nodes, length of the segments and the maximum radius can be parameterised by the user, 
 allowing for more diversity of operational environments.
 
-\section{Controller}
+\section{Path Tracker}
 \label{sec:controller}
-\paragraph{}A path is nothing if it cannot be followed so, a controller capable of 
-attending to this system's needs is required. This controller will 
-receive as input the generated path by the planner and will try to track it. 
+\paragraph{}A path is nothing if it cannot be followed so, a Path tracker or controller capable of 
+attending to this system's needs is required. This tracker will 
+receive as input the generated path by the planner and will try to follow it. 
 This is achieved in two steps, first, having the current positions in mind, 
-it will choose the next subgoal in the path. Since the controller is 
+it will choose the next subgoal in the path. Since the tracker is 
 a \gls{PP} controller, the subgoal is chosen depending on the lookahead distance, 
 as explained in \ref{subsec:PP}. The next step is to compute the angular velocity needed 
 for the robot to reach said subgoal. For this, two controllers were used:
@@ -283,9 +283,9 @@ of the movement.
 
 \section{Collision Avoidance}
 \label{sec:collision}
-The collision avoidance aspect of the controller is of the utmost importance 
+The collision avoidance aspect of the tracker is of the utmost importance 
 in real world scenarios when dealing with possible workers in the field. To achieve 
-this safety requirement, the controller is equipped with a collision detection algorithm 
+this safety requirement, the tracker is equipped with a collision detection algorithm 
 which will check for obstacles in the way of the tractor-trailer system and remain still until the 
 obstacle is no longer in the way or another path update has been sent.
 

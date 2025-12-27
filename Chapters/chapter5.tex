@@ -44,7 +44,7 @@ in simulation due to the certainty of the location where the robot is initialise
 expected that in the real world tests the initial poses estimation will be less 
 accurate which will lead to different trajectories even with the same goal pose. Figures \ref{fig:direct_path} 
 to \ref{fig:real_recovery_test4} illustrate the paths created in the various tests and tables 
-\ref{tab:direct_path_results1} to \ref{tab:mean_processing_time_lengths2} show the resulting data collected.
+\ref{tab:direct_path_results1} to \ref{tab:mean_processing_time_lengths4} show the resulting data collected.
 
 \subsection{Direct Path}
 \label{subsec:direct_path}
@@ -446,7 +446,7 @@ two minutes.
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.7\textwidth]{recovery3.png}
-    \caption{Test where the path had too many manoeuvres for the controller to handle.}
+    \caption{Test where the path had too many manoeuvres for the tracker to handle.}
     \label{fig:real_recovery_test1}
 \end{figure}
 
@@ -515,7 +515,7 @@ in the forwards direction, the robot would have absolutely no problem reaching i
 the presence of obstacles. However, when the goal pose required a change in direction 
 or a hitching manoeuvre, depending on the current configuration of the robot and the 
 environment, it couldn't be assured that the robot would be able to reach it. This, 
-of course, is due to the fact that the trailer's controller, despite being designed to 
+of course, is due to the fact that the trailer's tracker, despite being designed to 
 account for such scenarios, struggled when multiple manoeuvres were required in quick 
 succession, leading the robot to positions which weren't initialy in the path and could only 
 be recovered with a new planning iteration, like in \ref{fig:real_recovery_test1}. This fact doesn't invalidate the proposed 
@@ -589,7 +589,7 @@ the mathematical path using a closed-form solution.
         Recovery Test & 1.47  & 0.00  \\
         \hline
     \end{tabular}
-    \label{tab:mean_processing_time_lengths1}
+    \label{tab:mean_processing_time_lengths3}
 \end{table}
 \begin{table}[H]
     \centering
@@ -605,7 +605,7 @@ the mathematical path using a closed-form solution.
         Recovery Test & 60.76  & 1.92  \\
         \hline
     \end{tabular}
-    \label{tab:mean_processing_time_lengths2}
+    \label{tab:mean_processing_time_lengths4}
 \end{table}
 
 From the collected data, it is possible to assert that the previously mentioned trends hold true, both in 

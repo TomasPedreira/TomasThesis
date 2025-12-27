@@ -54,11 +54,11 @@ the navigation system.
     \label{fig:nav2_stack}
 \end{figure}
 
-In figure \ref{fig:nav2_stack} we can see the different components of the \gls{NAV2} stack as well as their 
-relations with one another. Firstly, lets define the inputs to the diagram. The BT is the Behaviour tree 
+In figure \ref{fig:nav2_stack} it is possible to see the different components of the \gls{NAV2} stack as well as their 
+relations with one another. The BT is the Behaviour tree 
 which is an xml file that defines the robot's behaviour, the TF a collection of transforms that define each 
 robot link to one another, the map is a 2D map representing the environment, and the sensor data is 
-the data collected by the robot's sensors. Secondly, some essencial elements are also the global and local 
+the data collected by the robot's sensors. Some other essencial elements are also the global and local 
 costmaps, which are 2D maps that instead of having binary values for if there's an obstacle or not, have 
 costs for each cell that represent the difficulty of traversing that cell, the Global costmap 
 has the map origin as a reference for the robot's position, while the local costmap is centered around 
@@ -79,7 +79,7 @@ the navigation and overall architecture of the system.
 \label{sec:hardware}
 
 \paragraph{}The tractor used is an Agilex Scout which is a four wheeled differential driven robot, 
-equipped with a NVIDIA Jetson Agx Xavier as the main computer, a LIDAR and wheel decoders. 
+equipped with a NVIDIA Jetson Agx Xavier as the main computer, a LIDAR and wheel encoders. 
 the NVIDIA Jetson Agx Xavier is a powerful computer capable of running complex algorithms in real time, 
 and is used to run the whole system, from path planning to control and sensor 
 perception. The Lidar and encoders are used to gather data for localization and mapping. This 
@@ -359,7 +359,7 @@ making the planner retry three times before a suitable subgoal is found and, bec
 is in clear view and aligned with the goal position, when the planner goes to repeat the algorithm 
 and a direct path is found.
 
-The last step to finish the controller is developing the recovery hybrid A* component. The previous 
+The last step to finish the planner is developing the recovery hybrid A* component. The previous 
 examples showed how iterating through the subgoals can lead to a valid path, however, in certain cases 
 it may not be the case and the loop would reach the start point without a valid path.
 
@@ -393,7 +393,7 @@ to manually intervene to adjust the robot or simply set a new goal and try again
 
 At first, the number of segments was not a variable and the algorithm would always add 
 one point for every iteration of the hybrid A* algorithm. This would not only worsen the computation 
-time but also lead to very small adjustments in paths which could make them unfollowable by the controller, 
+time but also lead to very small adjustments in paths which could make them unfollowable by the tracker, 
 as shown in Figure \ref{fig:rseg1}.
 
 
@@ -422,7 +422,7 @@ where $ap(n)$ is the angle penalty relative to the goal pose, and the $dir(n)$
 is the direction change cost. In an initial phase the robot would be constantly making 
 changes in direction going forwards and backwards multiple times, so the direction 
 change cost had to be implemented to avoid unnecessary oscillations and facilitate  
-the controller's job of following the planned path.
+the trackers' job of following the planned path.
 
 These changes would not be enough in the end to make for efficient short hybrid path recoveries, 
 and the last change made was to make the $h(n)$ cost incremental, making the cost 
@@ -434,14 +434,14 @@ $$f(n) = g(n) + h(n) + h(n-1) + ap(n) + dir(n)$$
 \section{Controller Plugin}
 \label{sec:controller_plugin}
 \paragraph{}The controller plugin is the component responsible for giving accurate 
-velocity commands for the robot to follow the planned path. In the \gls{NAV2} stack, 
+velocity commands for the robot to track the planned path. In the \gls{NAV2} stack, 
 to the velocity commands have a specific type and there's only the need to change the linear 
-and angular atributes of the message and return it. The controller's implementation, as a 
+and angular atributes of the message and return it. The trackers' implementation, as a controller 
 plugin, is similar to the planner's in the sense that it is a C++ class that 
-implements the controller interface that has only a few methods that need to be implemented. 
+implements the tracker interface that has only a few methods that need to be implemented. 
 The first method is the setPlan method. As the name suggests, this method receives the 
-global plan created by the planner and stores it for when the controller may be called to 
-produce velocity values. Since this controller, when in reverse, uses the trailer as the 
+global plan created by the planner and stores it for when the tracker may be called to 
+produce velocity values. Since this tracker, when in reverse, uses the trailer as the 
 origin of movement, it would not make sense to have the tractor's plan as the goal 
 position, therefore, when the setPlan method is called, the global plan is stored as well as 
 a second plan with the trailer's position for each tractor position.
@@ -459,7 +459,7 @@ would.
 
 The next method is the computeVelocityCommands method. This method receives the current 
 robot pose and computes the velocity values for the robot to have the desired behaviour 
-for its task. Since the used controller is the pure pursuit controller, the first step is 
+for its task. Since the used tracker is the pure pursuit controller, the first step is 
 to compute the lookahead point in the stored path. For this, a for loop is used, starting 
 from the last point used, zero if it is the first time the controller is called, and iterating 
 over the points in the path until the lookahead distance is reached and the point chosen. 
@@ -470,12 +470,12 @@ is used. Finally, with a constant linear velocity, changing only the sign for re
 forwards movement, the angular velocity is calculated using the expressions from section 
 \ref{sec:controller}, where the only adjustment made was to set the $k=2$. This value 
 was chosen after some testing and it was found to be the best value for the 
-controller to follow the path while ensuring that the trailer doesn't jackknife.
+tracker to follow the path while ensuring that the trailer doesn't jackknife.
 
 The collision detection was also implemented in the controller plugin as all that is 
 needed for the robot to stop is to set both angular and linear velocities to zero. The 
 implementation was straightforward, as explained in section \ref{sec:collision}, with the 
-only caveat being that since the controller is using the local costmap for positioning, 
+only caveat being that since the tracker is using the local costmap for positioning, 
 there was the need to create auxiliary methods to get the transform the local position to 
 the global position, that is referencing the map's origin.
 
